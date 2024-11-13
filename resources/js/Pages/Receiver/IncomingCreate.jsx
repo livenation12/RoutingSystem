@@ -16,7 +16,7 @@ export default function ProposalCreate() {
 
         const handleSubmit = (e) => {
                 e.preventDefault();
-                post(route('proposal.store'), {
+                post(route('receiver.incoming.store'), {
                         onSuccess: () => {
                                 toast('Created', 'Proposal created successfully');
                         },
@@ -24,7 +24,6 @@ export default function ProposalCreate() {
         };
 
         return (
-
                 <ReceiverLayout header={
                         <div className='flex justify-between'>
                                 <h2 className="main-header">Create Proposal</h2>

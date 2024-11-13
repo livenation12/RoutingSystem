@@ -27,12 +27,11 @@ class RoutingSlipController extends Controller
     {
         $offices = Office::all();
         TransactionResource::withoutWrapping();
-        return inertia("RoutingSlip/Create", [
+        return inertia("Shared/RoutingSlip/RoutingSlipCreate", [
             'transaction' => new TransactionResource($transaction),
             'offices' => $offices
         ]);
     }
-
 
     public function store(StoreRoutingSlipRequest $request)
     {

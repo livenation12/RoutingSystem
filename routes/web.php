@@ -6,6 +6,8 @@ use App\Http\Controllers\OfficeController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\ProposalController;
 use App\Http\Controllers\Receiver\DashboardController;
+use App\Http\Controllers\Receiver\IncomingController;
+use App\Http\Controllers\Receiver\InitialRoutingSlipController;
 use App\Http\Controllers\ReceiverController;
 use App\Http\Controllers\RoutingSlipController;
 use App\Http\Controllers\TransactionController;
@@ -57,14 +59,17 @@ Route::middleware(['auth', 'role:receiver'])
 
         // Dedicated pages for the receiver role
         Route::get('/', [DashboardController::class, 'index'])->name('dashboard');
-        Route::post('/proposal', [DashboardController::class, 'proposalStore'])->name('proposal.store');
-        Route::get('/proposal/create', [DashboardController::class, 'proposalCreate'])->name('proposal.create');
+        //incoming
+        Route::post('/incoming', [IncomingController::class, 'store'])->name('incoming.store');
+        Route::get('/incoming/create', [IncomingController::class, 'create'])->name('incoming.create');
+        //routing-slip
+        Route::get('/routing-slip/{transaction}/create', [InitialRoutingSlipController::class, 'create'])->name('initial-routing.create');
+        Route::post('/routing-slip/{transaction}/initialize', [InitialRoutingSlipController::class, 'initialize'])->name('initial-routing.initialize');
     });
-
-
 
 
 require __DIR__ . '/admin.php';
 
+require __DIR__ . '/departmentHead.php';
 
 require __DIR__ . '/auth.php';

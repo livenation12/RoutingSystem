@@ -4,7 +4,7 @@ import AuthenticatedLayout from '@/Layouts/AdminLayout'
 import { Head, Link } from '@inertiajs/react'
 import PrimaryButton from '@/Components/PrimaryButton'
 import DeleteTransaction from './Partials/DeleteTransaction'
-import RoutingList from './Partials/RoutingList'
+import RoutingList from '../Shared/RoutingSlip/Partials/RoutingList'
 export default function TransactionShow({ transaction }) {
           const { proposal } = transaction
 

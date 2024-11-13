@@ -24,7 +24,7 @@ export default function ProposalsTable({ transactions }) {
                               <table>
                                         <thead>
                                                   <tr>
-                                                            <th className="text-start text-lg">Transactions</th>
+                                                            <th className="text-start text-lg">Incomings</th>
                                                   </tr>
                                         </thead>
                                         <tbody>

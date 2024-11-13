@@ -3,6 +3,7 @@
 namespace App\Http\Resources;
 
 use App\Http\Resources\Proposal\ProposalMinResource;
+use App\Http\Resources\RoutingSlip\RoutingSlipMinResource;
 use App\Http\Resources\User\UserMinResource;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
@@ -27,7 +28,7 @@ class TransactionResource extends JsonResource
             'proposal' => new ProposalResource($this->whenLoaded('proposal')),
             'created_at' => Carbon::parse($this->created_at)->diffForHumans(),
             'updated_at' => Carbon::parse($this->updated_at)->diffForHumans(),
-            'routingSlips' => RoutingSlipResource::collection($this->whenLoaded('routingSlips')),
+            'routingSlips' => RoutingSlipMinResource::collection($this->whenLoaded('routingSlips')),
         ];
     }
 }

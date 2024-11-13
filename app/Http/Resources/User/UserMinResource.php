@@ -16,7 +16,7 @@ class UserMinResource extends JsonResource
     {
         return [
             'id' => $this->id,
-            'fullName' => $this->first_name . ' ' . $this->last_name,
+            'fullName' => $this->firstName . ' ' . $this->lastName,
             'email' => $this->email
         ];
     }

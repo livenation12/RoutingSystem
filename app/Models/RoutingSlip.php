@@ -64,4 +64,5 @@ class RoutingSlip extends Model
         // Return the new docTin, padded to 3 digits
         return sprintf('DH - %s - %03d', $currentMonthYear, $counter);
     }
+
 }

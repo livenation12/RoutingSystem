@@ -44,7 +44,7 @@ class AuthenticatedSessionController extends Controller
         } elseif ($user->hasRole('receiver')) {
             return redirect()->route('receiver.dashboard');
         } elseif ($user->hasRole('deptHead')) {
-            return redirect()->route('deptHead.dashboard');
+            return redirect()->route('departmentHead.dashboard');
         } elseif ($user->hasRole('officeHead')) {
             return redirect()->route('officeHead.dashboard');
         }
