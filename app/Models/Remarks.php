@@ -9,7 +9,7 @@ class Remarks extends Model
     protected $table = 'remarks';
     protected $fillable = [
         'routingSlipId',
-        'remarks',
+        'message',
         'office',
     ];
 

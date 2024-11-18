@@ -2,6 +2,7 @@
 
 namespace App\Http\Resources;
 
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\JsonResource;
 
@@ -27,7 +28,9 @@ class RoutingSlipResource extends JsonResource
             'additionalReamarks' => $this->additionalRemarks,
             'remarks' => RemarksResource::collection($this->remarks),
             'actionRequested' => $this->actionRequested,
-            'transaction' => new TransactionResource($this->whenLoaded('transaction'))
+            'transaction' => new TransactionResource($this->whenLoaded('transaction')),
+            'created_at' => Carbon::parse($this->created_at)->diffForHumans(),
+            'inPossession' => empty($this->endorsedToOfficeId) 
         ];
     }
 }

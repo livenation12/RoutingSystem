@@ -2,17 +2,24 @@ import { createContext, useReducer } from 'react';
 
 // Initial state for the transactions
 const initialState = {
-          viewingTransaction: null
+          transaction: null,
+          isUpdated: false
 };
 
 // Reducer function to handle actions
 const transactionReducer = (state, action) => {
           switch (action.type) {
-                    case 'SET_VIEWING_TRANSACTION':
+                    case 'SET_TRANSACTION':
                               return {
                                         ...state,
-                                        viewingTransaction: action.payload
+                                        transaction: action.payload,
                               };
+
+                    case 'UPDATE_TRANSACTION':
+                              return {
+                                        ...state,
+                                        isUpdated: !state.isUpdated
+                              }
                     default:
                               return state;
           }

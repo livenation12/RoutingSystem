@@ -18,10 +18,10 @@ class UserResource extends JsonResource
 
         return [
             'id' => $this->id,
-            'fullName' => $this->first_name . ' ' . $this->last_name,
-            'firstName' => $this->first_name,
-            'lastName' => $this->last_name,
-            'officeId' => new OfficeResource($this->office),
+            'fullName' => $this->firstName . ' ' . $this->lastName,
+            'firstName' => $this->firstName,
+            'lastName' => $this->lastName,
+            'office' => new OfficeResource($this->whenLoaded('office')),
             'email' => $this->email,
             'created_at' => Carbon::parse($this->created_at)->format('Y-m-d H:i:s'),
             'updated_at' => Carbon::parse($this->updated_at)->format('Y-m-d H:i:s'),

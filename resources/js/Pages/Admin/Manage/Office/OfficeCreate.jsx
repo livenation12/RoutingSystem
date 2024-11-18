@@ -5,6 +5,7 @@ import React from 'react'
 import OfficeForm from './Partials/OfficeForm'
 import SecondaryButton from '@/Components/SecondaryButton'
 export default function OfficeCreate({ noOfficeUsers }) {
+          
           const { data, setData, post, processing, errors, isDirty, reset } = useForm({
                     officeName: '',
                     officeHeadId: '',
@@ -12,7 +13,7 @@ export default function OfficeCreate({ noOfficeUsers }) {
           })
           const handleSubmit = (e) => {
                     e.preventDefault()
-                    post(route('office.store'), {
+                    post(route('admin.office.store'), {
                               onSuccess: () => {
                                         toast('Created', 'Office created successfully')
                                         reset()
@@ -24,7 +25,7 @@ export default function OfficeCreate({ noOfficeUsers }) {
                               header={
                                         <div className='flex justify-between'>
                                                   <h2 className="main-header">Office</h2>
-                                                  <Link href={route('manage')}>
+                                                  <Link href={route('admin.manage')}>
                                                             <SecondaryButton>Go back</SecondaryButton>
                                                   </Link>
                                         </div>

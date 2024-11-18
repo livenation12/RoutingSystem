@@ -13,12 +13,10 @@ class InitialRoutingSlipController extends Controller
     public function initialize(InitializeRoutingSlipRequest $request, Transaction $transaction)
     {
         $validated = $request->validated();
-        $docTin = RoutingSlip::generateDocTin();
         RoutingSlip::create([
             ...$validated,
             'transactionId' => $transaction->id,
-            'fromUserId' => 4,
-            'docTin' => $docTin
+            'fromUserId' => 4
         ]);
         return to_route('receiver.dashboard');
     }

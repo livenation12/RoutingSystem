@@ -39,7 +39,20 @@ class RoutingSlip extends Model
         return $this->belongsTo(Transaction::class, 'transactionId');
     }
 
-    public static function generateDocTin()
+    /*************  ✨ Codeium Command ⭐  *************/
+    /**
+     * Generate a new docTin identifier.
+     *
+     * This method generates a unique document identifier (docTin) for the current
+     * month and year in the format "DH - MMYY - XXX". It retrieves the highest
+     * existing counter for the current month and year, increments it, and returns
+     * the new identifier. If no existing docTin is found, it initializes the counter
+     * to 1.
+     *
+     * @return string The newly generated docTin identifier.
+     */
+    /******  21608d03-2a83-4e45-abbf-7d6c9fd52b2f  *******/
+    private static function generateDocTin()
     {
         // Get the current year and month
         $currentYear = date('y');
@@ -65,4 +78,18 @@ class RoutingSlip extends Model
         return sprintf('DH - %s - %03d', $currentMonthYear, $counter);
     }
 
+    /**
+     * Bootstrap the model and its traits.
+     *
+     * Automatically generates a 'docTin' for the RoutingSlip model
+     * before creating a new instance, if not already set.
+     */
+    protected static function booted()
+    {
+        static::creating(function ($routingSlip) {
+            if (empty($routingSlip->docTin)) {
+                $routingSlip->docTin = self::generateDocTin();
+            }
+        });
+    }
 }

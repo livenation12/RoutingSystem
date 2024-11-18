@@ -8,6 +8,7 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Spatie\Permission\Traits\HasRoles;
+
 class User extends Authenticatable
 {
     /** @use HasFactory<\Database\Factories\UserFactory> */
@@ -49,6 +50,7 @@ class User extends Authenticatable
         ];
     }
 
+
     public function transactions()
     {
         return $this->hasMany(Transaction::class, 'receiverId');
@@ -69,14 +71,18 @@ class User extends Authenticatable
         return $this->hasMany(Office::class, 'officialAlternateId');
     }
 
-
     public static function getNoOfficeUsers()
     {
-        return self::where('officeId', null)->get(['id', 'first_name', 'last_name'])->map(function ($user) {
-            return [
-                'id' => $user->id,
-                'fullName' => $user->first_name . ' ' . $user->last_name
-            ];
-        });
+        return self::whereDoesntHave('office') //get all users who doesnt have a office
+            ->whereDoesntHave('roles', function ($query) { //exclude the user with role of admin
+                $query->where('name', 'admin');
+            })
+            ->get(['id', 'firstName', 'lastName'])
+            ->map(function ($user) {
+                return [
+                    'id' => $user->id,
+                    'fullName' => $user->firstName . ' ' . $user->lastName
+                ];
+            });
     }
 }

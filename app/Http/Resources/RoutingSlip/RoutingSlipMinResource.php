@@ -2,6 +2,7 @@
 
 namespace App\Http\Resources\RoutingSlip;
 
+use App\Http\Resources\TransactionResource;
 use App\Http\Resources\User\UserMinResource;
 use App\Http\Resources\UserResource;
 use Illuminate\Http\Request;
@@ -20,8 +21,9 @@ class RoutingSlipMinResource extends JsonResource
         return [
             'id' => $this->id,
             'transactionId' => $this->transactionId,
+            'transaction' => new TransactionResource($this->whenLoaded('transaction')),
             'docTin' => $this->docTin,
-            'fromUser' => new UserMinResource($this->fromUser),
+            'fromUser' => new UserMinResource($this->whenLoaded('fromUser')),
             'urgency' => $this->urgency,
         ];
     }

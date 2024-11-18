@@ -7,8 +7,8 @@ import { Head, Link, useForm } from '@inertiajs/react';
 
 export default function Register() {
     const { data, setData, post, processing, errors, reset } = useForm({
-        first_name: '',
-        last_name: '',
+        firstName: '',
+        lastName: '',
         email: '',
         password: '',
         password_confirmation: '',
@@ -28,32 +28,32 @@ export default function Register() {
 
             <form onSubmit={submit}>
                 <div>
-                    <InputLabel htmlFor="first_name" value="First Name" />
+                    <InputLabel htmlFor="firstName" value="First Name" />
 
                     <TextInput
-                        id="first_name"
-                        name="first_name"
-                        value={data.first_name}
+                        id="firstName"
+                        name="firstName"
+                        value={data.firstName}
                         className="mt-1 block w-full"
-                        autoComplete="first_name"
+                        autoComplete="firstName"
                         isFocused={true}
-                        onChange={(e) => setData('first_name', e.target.value)}
+                        onChange={(e) => setData('firstName', e.target.value)}
                         required
                     />
 
                     <InputError message={errors.name} className="mt-2" />
                 </div>
                 <div className='mt-4'>
-                    <InputLabel htmlFor="last_name" value="Last Name" />
+                    <InputLabel htmlFor="lastName" value="Last Name" />
 
                     <TextInput
-                        id="last_name"
-                        name="last_name"
-                        value={data.last_name}
+                        id="lastName"
+                        name="lastName"
+                        value={data.lastName}
                         className="mt-1 block w-full"
-                        autoComplete="last_name"
+                        autoComplete="lastName"
                         isFocused={true}
-                        onChange={(e) => setData('last_name', e.target.value)}
+                        onChange={(e) => setData('lastName', e.target.value)}
                         required
                     />
 

@@ -4,9 +4,11 @@ import { Head, Link, useForm } from '@inertiajs/react'
 import React from 'react'
 import InitialRoutingSlipForm from './Partials/InitialRoutingSlipForm'
 import { useToast } from '@/Components/Toast'
+import useTransactions from '../Shared/Transactions/Hooks/useTransactions'
 
 export default function InitialRoutingSlipCreate({ transaction }) {
     const toast = useToast()
+    const [state, dispatch] = useTransactions()
     const { data, setData, post, processing, errors, isDirty } = useForm({
         urgency: '',
         subject: '',
@@ -16,7 +18,6 @@ export default function InitialRoutingSlipCreate({ transaction }) {
 
     const handleSubmit = (e) => {
         e.preventDefault()
-        console.log(data)
         post(route('receiver.initial-routing.initialize', { transaction: transaction.id }), {
             onSuccess: () => {
                 toast('Created', 'Routing slip initialized successfully');

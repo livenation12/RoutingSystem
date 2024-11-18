@@ -1,10 +1,11 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\Admin;
 
 use App\Http\Requests\Office\StoreOfficeRequest;
 use App\Models\Office;
 use App\Models\User;
+use App\Http\Controllers\Controller;
 
 class OfficeController extends Controller
 {
@@ -12,12 +13,12 @@ class OfficeController extends Controller
     {
         $office = $request->validated();
         Office::create($office);
-        return redirect()->route('manage');
+        return to_route('admin.manage');
     }
     public function create()
     {
         $noOfficeUsers = User::getNoOfficeUsers();
-        return inertia("Manage/Office/OfficeCreate", [
+        return inertia("Admin/Manage/Office/OfficeCreate", [
             'noOfficeUsers' => $noOfficeUsers
         ]);
     }
@@ -25,7 +26,7 @@ class OfficeController extends Controller
     public function edit(Office $office)
     {
         $noOfficeUsers = User::getNoOfficeUsers();
-        return inertia("Manage/Office/OfficeEdit", [
+        return inertia("Admin/Manage/Office/OfficeEdit", [
             'office' => $office,
             'noOfficeUsers' => $noOfficeUsers
         ]);

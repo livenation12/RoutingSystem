@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use Auth;
 use Illuminate\Database\Eloquent\Model;
 
 class Office extends Model
@@ -27,5 +28,13 @@ class Office extends Model
         return $this->hasMany(User::class);
     }
 
-
+    /**
+     * Returns all offices excluding the one the current user is in
+     * 
+     * @return \Illuminate\Database\Eloquent\Collection
+     */
+    public static function endorsedToOptions()
+    {
+        return  self::where('id', '!=', Auth::user()->officeId)->get();
+    }
 }

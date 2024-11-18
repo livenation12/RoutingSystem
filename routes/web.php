@@ -49,8 +49,6 @@ Route::middleware(['auth'])->group(function () {
 
 // Department Head-only routes
 
-
-
 // Receiver-only routes
 Route::middleware(['auth', 'role:receiver'])
     ->prefix('receiver')
@@ -67,6 +65,8 @@ Route::middleware(['auth', 'role:receiver'])
         Route::post('/routing-slip/{transaction}/initialize', [InitialRoutingSlipController::class, 'initialize'])->name('initial-routing.initialize');
     });
 
+
+require __DIR__ . '/officeHead.php';
 
 require __DIR__ . '/admin.php';
 

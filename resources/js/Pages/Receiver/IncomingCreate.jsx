@@ -4,7 +4,9 @@ import React from 'react';
 import { useToast } from '@/Components/Toast';
 import ReceiverLayout from '@/Layouts/ReceiverLayout';
 import SecondaryButton from '@/Components/SecondaryButton';
+import useTransactions from '../Shared/Transactions/Hooks/useTransactions';
 export default function ProposalCreate() {
+        const [state, dispatch] = useTransactions();
         const toast = useToast();
         const { data, setData, post, processing, errors, isDirty } = useForm({
                 source: '',
@@ -19,6 +21,7 @@ export default function ProposalCreate() {
                 post(route('receiver.incoming.store'), {
                         onSuccess: () => {
                                 toast('Created', 'Proposal created successfully');
+                                dispatch({ type: 'UPDATE_TRANSACTION' });
                         },
                 });
         };

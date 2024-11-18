@@ -23,8 +23,8 @@ class StoreOfficeRequest extends FormRequest
     {
         return [
             'officeName' => ['required', 'string', 'max:255'],
-            'officeHeadId' => ['required', 'numeric', 'max:255', 'exists:users,id'],
-            'officialAlternateId' => ['nullable', 'numeric', 'max:255', 'exists:users,id'],
+            'officeHeadId' => ['required', 'numeric', 'max:255', 'exists:users,id', 'different:officialAlternateId'],
+            'officialAlternateId' => ['nullable', 'numeric', 'max:255', 'exists:users,id', 'different:officeHeadId'],
         ];
     }
 
@@ -33,6 +33,7 @@ class StoreOfficeRequest extends FormRequest
         return [
             'officeHeadId.required' => 'Office Head is required.',
             'officialAlternateId.exists' => 'The selected official alternate is invalid.',
+            'officialAlternateId.different' => 'The official alternate cannot be the same as the office head.',
         ];
     }
 }

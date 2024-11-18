@@ -13,12 +13,16 @@ class DashboardController extends Controller
         $query = Transaction::query();
 
         // Eager load the 'proposal' relationship
-        $transactions = $query->with(['proposal', 'routingSlips'])  // Add 'proposal' here to eager load it
+        $transactions = $query->with(['proposal', 'routingSlips', 'routingSlips.fromUser'])  // Add 'proposal' here to eager load it
             ->orderBy('id', 'desc')
             ->paginate(10);
-
         return inertia('Receiver/Dashboard', [
             "transactions" => TransactionResource::collection($transactions)
         ]);
+    }
+
+    public function proposalCreate()
+    {
+        return inertia("Receiver/ProposalCreate");
     }
 }

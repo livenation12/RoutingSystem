@@ -1,51 +1,60 @@
-import useTransactions from "./Hooks/useTransactions";
-import Pagination from "@/Components/Pagination";
 import { useEffect } from "react";
+import Pagination from "@/Components/Pagination";
+import useUserRouting from "./Hooks/useUserRouting";
+import useTransactions from "../Transactions/Hooks/useTransactions";
 
-//This component should be wrapped by TransactionProvider
-export default function TransactionsTable({ transactions }) {
-          const { data } = transactions;
-          const [state, dispatch] = useTransactions();
 
-          const handleSelectedTransaction = (transaction) => {
-                    dispatch({ type: 'SET_TRANSACTION', payload: transaction });
+//This component should be wrapped by routingProvider
+export default function UserRoutingTable({ routings }) {
+          const { data } = routings;
+          const [state, dispatch] = useUserRouting();
+          const [transactionState, transactionDispatch] = useTransactions();
+          const handleSelectedRouting = (routing) => {
+                    dispatch({ type: 'SET_ROUTING', payload: routing });
           };
 
+          //setting the first routing as default
           useEffect(() => {
-                    if (transactions.data.length > 0) {
-                              dispatch({ type: 'SET_TRANSACTION', payload: transactions.data[0] })
+                    if (!state.routing && data.length > 0) {
+                              dispatch({ type: 'SET_ROUTING', payload: data[0] });
                     }
-          }, [state.isUpdated])
+          }, [state.routing, dispatch]);
+
+          useEffect(() => {
+                    if (!transactionState.viewingTransaction && data.length > 0) {
+                              dispatch({ type: 'SET_VIEWING_TRANSACTION', payload: data[0] });
+                    }
+          }, [transactionState.viewingTransaction, transactionDispatch]);
 
           return (
-                    <div>
+                    <div className="min-h-[400px] max-h-[500px] overflow-y-auto flex flex-col justify-between">
                               <table>
                                         <thead>
                                                   <tr>
-                                                            <th className="text-start text-lg">Incomings</th>
+                                                            <th className="text-start text-lg">Routings</th>
                                                   </tr>
                                         </thead>
                                         <tbody>
                                                   {data.length > 0 ? (
-                                                            data.map((transaction) => (
+                                                            data.map((routing) => (
                                                                       <tr
-                                                                                key={transaction.id}
-                                                                                onClick={() => handleSelectedTransaction(transaction)}
+                                                                                key={routing.id}
+                                                                                onClick={() => handleSelectedRouting(routing)}
                                                                       >
                                                                                 <td>
                                                                                           <div
-                                                                                                    className={`hover:bg-gray-700 my-1 rounded p-3 ${transaction.id === state.transaction?.id
+                                                                                                    className={`hover:bg-gray-700 my-1 rounded p-3 ${routing.id === state.viewingrouting?.id
                                                                                                               ? 'bg-gray-700'
                                                                                                               : ''
                                                                                                               }`}
                                                                                           >
                                                                                                     <header className="mb-2 flex justify-between">
                                                                                                               <h4 className="font-medium">
-                                                                                                                        {transaction.proposal.trackingId} - {transaction.proposal.title}
+                                                                                                                        {routing.docTin}
                                                                                                               </h4>
-                                                                                                              <span className="text-xs">{transaction.created_at}</span>
+                                                                                                              <span className="text-xs">{routing.created_at}</span>
                                                                                                     </header>
-                                                                                                    <p className="text-sm text-gray-400">{transaction.proposal.source}</p>
+                                                                                                    {/* // <p className="text-sm text-gray-400">{routing.proposal.source}</p> */}
                                                                                           </div>
                                                                                 </td>
                                                                       </tr>
@@ -53,14 +62,14 @@ export default function TransactionsTable({ transactions }) {
                                                   ) : (
                                                             <tr>
                                                                       <td colSpan={5} className="text-center py-2">
-                                                                                No transactions found
+                                                                                No routings found
                                                                       </td>
                                                             </tr>
                                                   )}
                                         </tbody>
                               </table>
-                              <div className="absolute bottom-3 right-2">
-                                        <Pagination links={transactions.meta.links} />
+                              <div className="self-end">
+                                        <Pagination links={routings.meta.links} />
                               </div>
                     </div>
           );
