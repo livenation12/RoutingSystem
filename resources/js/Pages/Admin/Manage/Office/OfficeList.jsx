@@ -20,21 +20,21 @@ export default function OfficeList({ offices }) {
                                         {offices.length > 0 ? offices.map((office) => (
                                                   <div key={office.id} className='border rounded-lg p-4'>
                                                             <header className='flex justify-between'>
-                                                                      <h2 className="font-medium text-gray-900 dark:text-gray-100">
+                                                                      <h2 className="main-text">
                                                                                 {office.officeName}
                                                                       </h2>
                                                                       <Link href={route('admin.office.edit', office.id)}>
                                                                                 <SecondaryButton><PenBox size={15} /></SecondaryButton>
                                                                       </Link>
                                                             </header>
-                                                            <div className="text-sm text-gray-600 dark:text-gray-400">
+                                                            <div className="subtext">
                                                                       <p><strong>Office Head: </strong>{office.officeHead.fullName}</p>
                                                                       {office.officialAlternate && <p>Official Alternate: {office.officialAlternate.fullName}</p>}
                                                             </div>
                                                   </div>
                                         )) :
                                                   <div>
-                                                            <h2 className='text-lg font-medium text-gray-900 dark:text-gray-400'>No Offices</h2>
+                                                            <h2 className='main-text'>No Offices</h2>
                                                   </div>
                                         }
                               </div>

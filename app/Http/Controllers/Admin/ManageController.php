@@ -12,9 +12,13 @@ class ManageController extends Controller
 {
     public function __invoke()
     {
+        // Eager loading the office relationship with users
+        $users = User::with('office')->get();
+
+        // Returning the data to the Inertia view
         return inertia('Admin/Manage/Index', [
-            'offices' =>  OfficeResource::collection(Office::all()),
-            'users' =>  UserResource::collection(User::with('office')->get())
+            'offices' => OfficeResource::collection(Office::all()),
+            'users' => UserResource::collection($users),
         ]);
     }
 }

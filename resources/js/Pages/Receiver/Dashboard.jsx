@@ -7,7 +7,8 @@ import useTransactions from '../Shared/Transactions/Hooks/useTransactions'
 
 export default function Dashboard({ transactions }) {
     const [state, dispatch] = useTransactions();
-
+    console.log(transactions);
+    
     return (
         <ReceiverLayout
             header={

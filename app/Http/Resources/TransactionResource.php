@@ -29,6 +29,7 @@ class TransactionResource extends JsonResource
             'created_at' => Carbon::parse($this->created_at)->diffForHumans(),
             'updated_at' => Carbon::parse($this->updated_at)->diffForHumans(),
             'routingSlips' => RoutingSlipMinResource::collection($this->whenLoaded('routingSlips')),
+            'isInitialized' => $this->routingSlips && $this->routingSlips->isNotEmpty(),
         ];
     }
 }

@@ -37,7 +37,7 @@ export default function OfficeForm({ onSubmit, errors, data, setData, processing
                                         message={errors.officialAlternateId}
                                         onChange={handleChange} />
 
-                              <PrimaryButton type="submit" isLoading={processing} disabled={!isDirty} loadingText='Submitting'>{type}</PrimaryButton>
+                              <PrimaryButton type="submit" isLoading={processing} disabled={!isDirty || processing} loadingText='Submitting'>{type}</PrimaryButton>
 
                     </form>
 

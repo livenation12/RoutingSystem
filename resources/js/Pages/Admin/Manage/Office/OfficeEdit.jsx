@@ -4,20 +4,19 @@ import { Head, Link, useForm } from '@inertiajs/react'
 import React from 'react'
 import OfficeForm from './Partials/OfficeForm'
 import SecondaryButton from '@/Components/SecondaryButton'
-export default function OfficeEdit({ noOfficeUsers, office }) {
-          console.log(office);
-
-          const { data, setData, post, processing, errors } = useForm({
+export default function OfficeEdit({ users, office }) {
+          const { data, setData, post, processing, errors, isDirty } = useForm({
                     officeName: office.officeName,
                     officeHeadId: office.officeHeadId || '',
                     officialAlternateId: office.officialAlternateId || '',
           })
+          
           return (
                     <AuthenticatedLayout
                               header={
                                         <div className='flex justify-between'>
                                                   <h2 className="main-header">Office</h2>
-                                                  <Link href={route('manage')}>
+                                                  <Link href={route('admin.manage')}>
                                                             <SecondaryButton>Go back</SecondaryButton>
                                                   </Link>
                                         </div>
@@ -37,12 +36,14 @@ export default function OfficeEdit({ noOfficeUsers, office }) {
                                         </header>
                                         <OfficeForm
                                                   type="edit"
-                                                  noOfficeUsers={noOfficeUsers}
+                                                  noOfficeUsers={users}
                                                   data={data}
                                                   setData={setData}
                                                   post={post}
                                                   processing={processing}
-                                                  errors={errors} />
+                                                  errors={errors} 
+                                                  isDirty={isDirty}
+                                                  />
                               </Wrapper>
                     </AuthenticatedLayout>
           )

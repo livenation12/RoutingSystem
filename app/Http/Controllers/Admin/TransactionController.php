@@ -12,10 +12,9 @@ class TransactionController extends Controller
     public function index()
     {
         $query = Transaction::query();
-        
-        $transactions = $query->with(['proposal', 'receiver', 'routingSlips'])
+        $transactions = $query->with(['proposal', 'receiver', 'routingSlips', 'routingSlips.fromUser'])
             ->orderBy('id', 'desc')
-            ->paginate(10);
+            ->paginate($this->pageCount);
 
         return inertia('Admin/Transaction/Index', [
             'transactions' => TransactionResource::collection($transactions)

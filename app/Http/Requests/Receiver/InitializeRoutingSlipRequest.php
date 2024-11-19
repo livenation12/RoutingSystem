@@ -24,8 +24,8 @@ class InitializeRoutingSlipRequest extends FormRequest
         return [
             'urgency' => ['required'],
             'subject' => ['required'],
-            'action' => ['required'],
-            'actionRequested' => ['required'],
+            'action' => ['nullable'],
+            'actionRequested' => ['nullable'],
         ];
     }
 }

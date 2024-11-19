@@ -36,12 +36,6 @@ export default function AdminLayout({ header, children }) {
                                     Transactions
                                 </NavLink>
                                 <NavLink
-                                    href={route('routing-slip.index')}
-                                    active={route().current('routing-slip.index')}
-                                >
-                                    Routing Slips
-                                </NavLink>
-                                <NavLink
                                     href={route('admin.manage')}
                                     active={route().current('admin.manage')}
                                 >

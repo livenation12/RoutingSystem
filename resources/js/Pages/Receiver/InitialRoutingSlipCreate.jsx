@@ -10,7 +10,7 @@ export default function InitialRoutingSlipCreate({ transaction }) {
     const toast = useToast()
     const [state, dispatch] = useTransactions()
     const { data, setData, post, processing, errors, isDirty } = useForm({
-        urgency: '',
+        urgency: 'Routine',
         subject: '',
         action: '',
         actionRequested: '',

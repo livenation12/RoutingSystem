@@ -16,5 +16,6 @@ Route::middleware(['auth', 'role:admin'])
                     Route::get('/transaction', [TransactionController::class, 'index'])->name('transaction.index');
                     Route::resource('/office', OfficeController::class);
                     Route::get('/manage', ManageController::class)->name('manage');
-                    Route::get('/user', [UserController::class, 'create'])->name('user.create');
+                    Route::get('/user/create', [UserController::class, 'create'])->name('user.create');
+                    Route::post('/user', [UserController::class, 'store'])->name('user.store');
           });
