@@ -4,8 +4,7 @@ import React from 'react'
 import TransactionsTable from '../Shared/Transactions/TransactionsTable';
 import ViewTransaction from '../Shared/Transactions/ViewTransaction';
 export default function Dashboard({ transactions }) {
-
-    
+console.log(transactions)
     return (
         <DepartmentHeadLayout>
             <Head title='Department Head' />

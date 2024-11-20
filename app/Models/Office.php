@@ -7,6 +7,8 @@ use Illuminate\Database\Eloquent\Model;
 
 class Office extends Model
 {
+
+    protected $table = 'offices';
     protected $fillable = [
         'officeName',
         'officeHeadId',
@@ -35,6 +37,6 @@ class Office extends Model
      */
     public static function endorsedToOptions()
     {
-        return  self::where('id', '!=', Auth::user()->officeId)->get();
+        return self::where('id', '!=', Auth::user()->officeId)->get();
     }
 }

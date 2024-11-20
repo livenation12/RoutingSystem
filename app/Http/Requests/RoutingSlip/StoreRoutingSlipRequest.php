@@ -27,7 +27,6 @@ class StoreRoutingSlipRequest extends FormRequest
             'subject' => ['required', 'string', 'max:255'],
             'action' => ['required', 'string', 'max:255'],
             'endorsedToOfficeId' => ['nullable', 'string', 'exists:offices,id'],
-            // Make remarks required if endorsedToOfficeId is not null or an empty string
             'remarks' => ['required_if:endorsedToOfficeId,!=,"', 'required_if:endorsedToOfficeId,!=,'],
             'status' => ['nullable', 'string'],
             'additionalRemarks' => ['nullable', 'string', 'max:255'],

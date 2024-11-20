@@ -2,7 +2,9 @@
 
 namespace App\Http\Controllers\Admin;
 
+use App\Http\Requests\Admin\Office\UpdateOfficeRequest;
 use App\Http\Requests\Office\StoreOfficeRequest;
+use App\Http\Resources\User\UserMinResource;
 use App\Models\Office;
 use App\Models\User;
 use App\Http\Controllers\Controller;
@@ -47,10 +49,17 @@ class OfficeController extends Controller
 
     public function edit(Office $office)
     {
-        $noOfficeUsers = User::getNoOfficeUsers();
         return inertia("Admin/Manage/Office/OfficeEdit", [
             'office' => $office,
-            'noOfficeUsers' => $noOfficeUsers
+            'users' => UserMinResource::collection(User::get())
         ]);
+    }
+
+    public function update(UpdateOfficeRequest $request, Office $office)
+    {
+        $validated = $request->validated();
+        $office->update($validated);
+
+        return redirect(route('admin.manage'));
     }
 }

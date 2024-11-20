@@ -1,9 +1,9 @@
 import React from 'react';
 import PrimaryButton from '@/Components/PrimaryButton';
 import { FormInput, FormSelect } from '@/Components/FormEntities';
-export default function OfficeForm({ onSubmit, errors, data, setData, processing, isDirty, noOfficeUsers, type = 'create' }) {
+export default function OfficeForm({ onSubmit, errors, data, setData, processing, isDirty, users, type = 'create' }) {
 
-          const structureUsers = noOfficeUsers.map((user) => ({ label: user.fullName, value: user.id }))
+          const structureUsers = users.map((user) => ({ label: user.fullName, value: user.id }))
           const handleChange = (e) => {
                     const { name, value } = e.target
                     setData((prev) => ({

@@ -1,5 +1,5 @@
 import PrimaryButton from "@/Components/PrimaryButton"
-import { Link } from "@inertiajs/react"
+import { Link, usePage } from "@inertiajs/react"
 import { ArrowUpDown } from "lucide-react"
 
 export default function RoutingList({ routingSlips, transactionId }) {
@@ -8,6 +8,9 @@ export default function RoutingList({ routingSlips, transactionId }) {
             <p>No routing slips yet</p>
         )
     }
+    const [role] = usePage().props.auth.roles
+    const processRouteBaseOnRole = role === 'deptHead' ? 'department-head.routing-slip.form' : 'office-head.routing-slip.form'
+
     return (
         <>
             <h2 className="text-lg mb-3 font-medium text-gray-900 dark:text-gray-100">
@@ -22,11 +25,12 @@ export default function RoutingList({ routingSlips, transactionId }) {
                                     {routingSlip.fromUser?.fullName}
                                 </h2>
                                 <div className="inline-flex gap-2">
-                                    <Link href={route('department-head.routing-slip.form', routingSlip.id)}>
+                                    {routingSlip.toProcess ? <Link href={route(processRouteBaseOnRole, routingSlip.id)}>
                                         <PrimaryButton>
                                             <ArrowUpDown />
                                         </PrimaryButton>
-                                    </Link>
+                                    </Link> : ''}
+
                                 </div>
                             </header>
                             <p className="mt-1 text-sm text-gray-600 dark:text-gray-400">

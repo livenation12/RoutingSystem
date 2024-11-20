@@ -46,7 +46,7 @@ export default function OfficeCreate({ noOfficeUsers }) {
                                         <OfficeForm
                                                   isDirty={isDirty}
                                                   onSubmit={handleSubmit}
-                                                  noOfficeUsers={noOfficeUsers}
+                                                  users={noOfficeUsers}
                                                   data={data}
                                                   setData={setData}
                                                   processing={processing}

@@ -27,7 +27,7 @@ export default function ProcessRoutingSlipForm({ officesToEndorsedTo, onSubmit, 
       <FormSelect
         onChange={handleChange}
         name={'urgency'}
-        value={data.status}
+        value={data.urgency}
         options={structOptions(urgencyTypes)} />
       <FormTextArea
         required
@@ -68,7 +68,8 @@ export default function ProcessRoutingSlipForm({ officesToEndorsedTo, onSubmit, 
         name={'action'}
         value={data.action}
         options={structOptions(actionTypes)} />
-        <FormSelect
+      <FormSelect
+        labelValue='Action Requested'
         onChange={handleChange}
         name={'actionRequested'}
         value={data.actionRequested}
