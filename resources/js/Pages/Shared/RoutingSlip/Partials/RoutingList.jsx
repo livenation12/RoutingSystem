@@ -1,11 +1,12 @@
 import PrimaryButton from "@/Components/PrimaryButton"
+import SecondaryButton from "@/Components/SecondaryButton"
 import { Link, usePage } from "@inertiajs/react"
-import { ArrowUpDown } from "lucide-react"
+import { ArrowUpDown, EllipsisVertical } from "lucide-react"
 
 export default function RoutingList({ routingSlips, transactionId }) {
     if (routingSlips.length === 0) {
         return (
-            <p>No routing slips yet</p>
+            <p className="text">No routing slips yet</p>
         )
     }
     const [role] = usePage().props.auth.roles
@@ -25,12 +26,20 @@ export default function RoutingList({ routingSlips, transactionId }) {
                                     {routingSlip.fromUser?.fullName}
                                 </h2>
                                 <div className="inline-flex gap-2">
-                                    {routingSlip.toProcess ? <Link href={route(processRouteBaseOnRole, routingSlip.id)}>
-                                        <PrimaryButton>
-                                            <ArrowUpDown />
-                                        </PrimaryButton>
-                                    </Link> : ''}
-
+                                    {
+                                        routingSlip.toProcess ?
+                                            <Link href={route(processRouteBaseOnRole, routingSlip.id)}>
+                                                <PrimaryButton>
+                                                    <ArrowUpDown />
+                                                </PrimaryButton>
+                                            </Link>
+                                            : null
+                                    }
+                                    <Link href={route('routing.show', routingSlip.id)}>
+                                        <SecondaryButton>
+                                            <EllipsisVertical />
+                                        </SecondaryButton>
+                                    </Link>
                                 </div>
                             </header>
                             <p className="mt-1 text-sm text-gray-600 dark:text-gray-400">

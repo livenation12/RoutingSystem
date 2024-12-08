@@ -4,52 +4,76 @@
 
 
 .main-header {
-          @apply text-xl font-semibold leading-tight text-gray-800 dark:text-gray-200
+    @apply text-xl font-semibold leading-tight text-gray-800 dark:text-gray-200
 }
 
 .content-wrapper {
-          @apply p-4 mx-auto max-w-7xl space-y-6 sm:px-6 lg:px-8
+    @apply py-4 mx-auto max-w-7xl space-y-6 sm:px-4 lg:px-6
 }
 
 .section-header {
-          @apply text-lg font-medium text-gray-900 dark:text-gray-100
+    @apply text-lg font-medium text-gray-900 dark:text-gray-100
 }
 
 .section-wrapper {
-          @apply bg-white p-2 shadow sm:rounded-lg sm:p-8 dark:bg-gray-800 text-gray-900 dark:text-gray-100 
+    @apply bg-white p-2 shadow sm:rounded-lg sm:p-8 dark:bg-gray-800 text-gray-900 dark:text-gray-100
 }
 
 .main-text {
-          @apply font-medium text-gray-900 dark:text-gray-100
+    @apply font-medium text-gray-900 dark:text-gray-100 text-base
 }
 
-.subtext{
+.text {
+    @apply text-gray-600 dark:text-gray-400
+}
+
+.subtext {
     @apply text-sm text-gray-600 dark:text-gray-400
 }
 
+/* Data table */
+.table-search {
+    @apply h-8 w-full dark:text-gray-300 font-thin text-sm rounded bg-transparent max-w-xs
+}
+
+
+
 /* Table */
-table {
-          @apply w-full
+table.styled {
+    @apply w-full
 }
 
-table thead tr.styled {
-          @apply border-b uppercase
+
+table.styled thead tr.styled {
+    @apply border-b uppercase
 }
 
-table thead tr th.styled {
-          @apply py-2 px-3 text-start
+table.styled thead tr th.styled {
+    @apply py-2 px-3 text-start
 }
 
-table tbody tr.styled {
-          @apply hover:bg-gray-700
+table.styled tbody tr.styled {
+    @apply hover:bg-gray-700
 }
 
-table tbody tr td.styled {
-          @apply px-3 py-2
+table.styled tbody tr td.styled {
+    @apply px-3 py-2
 }
 
 .lucide {
-          @apply size-4
+    @apply size-4
 }
 
 /* End Table */
+
+
+/*Details list */
+dl {}
+
+dl dt {
+    @apply font-semibold
+}
+
+dl dd {
+    @apply ml-2 text-sm italic text-gray-400 mb-2
+}

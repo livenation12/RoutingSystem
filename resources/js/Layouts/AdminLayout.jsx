@@ -17,7 +17,7 @@ export default function AdminLayout({ header, children }) {
                     <div className="flex h-16 justify-between">
                         <div className="flex">
                             <div className="flex shrink-0 items-center">
-                                <Link href="/" className='text-center  text-gray-800 dark:text-gray-200'>
+                                <Link href={route('admin.dashboard')} className='text-center  text-gray-800 dark:text-gray-200'>
                                     <ApplicationLogo className="block h-9 w-auto fill-current" />
                                     <span>Administrator</span>
                                 </Link>
@@ -152,12 +152,12 @@ export default function AdminLayout({ header, children }) {
                         >
                             Transactions
                         </ResponsiveNavLink>
-                        <ResponsiveNavLink
+                        {/* <ResponsiveNavLink
                             href={route('routing-slip.index')}
                             active={route().current('routing-slip.index')}
                         >
                             Routing Slips
-                        </ResponsiveNavLink>
+                        </ResponsiveNavLink> */}
                     </div>
 
                     <div className="border-t border-gray-200 pb-1 pt-4 dark:border-gray-600">

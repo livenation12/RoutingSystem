@@ -85,4 +85,19 @@ class User extends Authenticatable
                 ];
             });
     }
+
+    /**
+     * Retrieves the user with role of department head
+     *
+     * @return \App\Models\User|null
+     */
+    public static function getDepartmentHead()
+    {
+        return self::role('deptHead')->first();
+    }
+
+    public static function getOfficeHead(Office $office)
+    {
+        return self::role('officeHead')->where('officeId', $office->id)->first();
+    }
 }

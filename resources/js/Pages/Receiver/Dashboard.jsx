@@ -3,12 +3,8 @@ import { Head, Link } from '@inertiajs/react'
 import TransactionsTable from '../Shared/Transactions/TransactionsTable'
 import PrimaryButton from '@/Components/PrimaryButton'
 import ViewTransaction from '../Shared/Transactions/ViewTransaction'
-import useTransactions from '../Shared/Transactions/Hooks/useTransactions'
 
 export default function Dashboard({ transactions }) {
-    const [state, dispatch] = useTransactions();
-    console.log(transactions);
-    
     return (
         <ReceiverLayout
             header={

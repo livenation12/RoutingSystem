@@ -35,11 +35,19 @@ class ProcessRoutingSlip extends Controller
      */
     public function process(ProcessRoutingSlipRequest $request, RoutingSlip $routingSlip)
     {
-        // Validate and retrieve the validated data from the request
         $validated = $request->validated();
+        // Update the routing slip with validated data
+        $routingSlip->update($validated);
+        // Create a remark associated with the routing slip
+        Remarks::create([
+            'routingSlipId' => $routingSlip->id,
+            'message' => $validated['remarks'],
+            'office' => $routingSlip->endorsedTo->officeName,
+        ]);
 
         // Check if 'endorsedToOfficeId' is not provided
         if (empty($validated['endorsedToOfficeId'])) {
+
             $transaction = Transaction::find($routingSlip->transactionId);
 
             // Check if transaction exists before accessing its properties
@@ -50,21 +58,13 @@ class ProcessRoutingSlip extends Controller
                 // Handle the case where the transaction is not found (optional)
                 return to_route('department-head.routing-slip.form', ['routingSlip' => $routingSlip])->withErrors(['message' => 'Transaction not found.']);
             }
+        } else {
+            //initialize routing slip for the next routing
+            RoutingSlip::create([
+                'transactionId' => $routingSlip->transactionId,
+                'fromUserId' => $routingSlip->endorsedTo->officeHead->id,
+            ]);
         }
-
-        // Update the routing slip with validated data
-        $routingSlip->update($validated);
-        // Create a remark associated with the routing slip
-        Remarks::create([
-            'routingSlipId' => $routingSlip->id,
-            'message' => $validated['remarks'],
-            'office' => Auth::user()->office->officeName,
-        ]);
-        //initialize routing slip for the next routing
-        RoutingSlip::create([
-            'transactionId' => $routingSlip->transactionId,
-            'fromUserId' => $routingSlip->endorsedTo->officeHead->id,
-        ]);
 
         // Return a success response (optional)
         return to_route('department-head.dashboard');

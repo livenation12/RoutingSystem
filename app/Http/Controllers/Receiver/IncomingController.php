@@ -4,43 +4,87 @@ namespace App\Http\Controllers\Receiver;
 
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Proposal\StoreProposalRequest;
+use App\Models\Attachment;
 use App\Models\Proposal;
 use App\Models\Transaction;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
 
 class IncomingController extends Controller
 {
+
     public function store(StoreProposalRequest $request)
     {
+        // Debugging: Ensure files are uploaded
+        // dd($request->file('attachments'));
+
+        // Validate the incoming request
         $validatedRequest = $request->validated();
-        // Check if the request has a file
-        if ($request->hasFile('attachment')) {
 
-            $transaction = Transaction::create([
-                'receiverId' => Auth::user()->id
-            ]);
-            $validatedRequest['transactionId'] = $transaction->id;
+        // Check if the request has files
+        if ($request->hasFile('attachments')) {
 
-            $attachment = $request->file('attachment');
+            // Start a database transaction to ensure atomicity
+            DB::beginTransaction();
 
-            // Generate a tracking ID
-            $trackingId = Proposal::generateTrackingId();
+            try {
+                // Create a new transaction record
+                $transaction = Transaction::create([
+                    'receiverId' => Auth::user()->id
+                ]);
 
-            $validatedRequest['trackingId'] = $trackingId;
+                // Generate a unique tracking ID for the proposal
+                $trackingId = Proposal::generateTrackingId();
 
-            // Get the original file extension
-            $fileExtension = $attachment->getClientOriginalExtension();
+                // Add additional validated data (transactionId and trackingId)
+                $validatedRequest['transactionId'] = $transaction->id;
+                $validatedRequest['trackingId'] = $trackingId;
 
-            $filename = str_replace(' ', '', "{$trackingId}.{$fileExtension}");
+                // Process each attachment file
+                foreach ($request->file('attachments') as $index => $attachment) {
+                    $index ++;
+                    // Generate a unique fileName for each file
+                    $fileExtension = $attachment->getClientOriginalExtension();
+                    $fileName = str_replace(' ', '', "{$trackingId}[{$index}].{$fileExtension}");
 
-            $validatedRequest['attachment'] = $attachment->storeAs(Proposal::getFileDirectory(), $filename, 'public');
+                    // Store the file in the specified directory
+                    $filePath = $attachment->storeAs(Proposal::getFileDirectory(), $fileName, 'public');
 
-            Proposal::create($validatedRequest);
+                    // Add the file path to the array
+                    $files[$fileName] = $filePath;
+                }
 
-            return redirect()->route('receiver.dashboard');
+                // Create the proposal with the validated data
+                $proposal = Proposal::create($validatedRequest);
+
+                // Store each file as an attachment in the database
+                foreach ($files as $fileName => $filePath) {
+                    Attachment::create([
+                        'proposalId' => $proposal->id,
+                        'filePath' => $filePath,
+                        'fileName' => $fileName
+                    ]);
+                }
+
+                // Commit the transaction
+                DB::commit();
+
+                // Redirect after successful store
+                return redirect()->route('receiver.dashboard');
+            } catch (\Exception $e) {
+                // If any exception occurs, rollback the transaction
+                DB::rollBack();
+
+                // Log the error for debugging purposes (optional)
+                \Log::error("Proposal store failed: " . $e->getMessage());
+
+                // Handle the error and show a user-friendly message
+                return redirect()->back()->withInput()->withErrors(['attachments' => 'There was an error uploading the attachments.']);
+            }
         }
 
-        return redirect()->back()->withInput()->withErrors(['attachment' => 'No attachment found.']);
+        // Handle the case when no files are found
+        return redirect()->back()->withInput()->withErrors(['attachments' => 'No attachments found.']);
     }
 
     public function create()
@@ -48,4 +92,3 @@ class IncomingController extends Controller
         return inertia("Receiver/IncomingCreate");
     }
 }
-

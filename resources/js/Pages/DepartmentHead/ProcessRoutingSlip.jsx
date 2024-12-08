@@ -4,11 +4,9 @@ import ProcessRoutingSlipForm from './Partials/ProcessRoutingSlipForm'
 import { Head, Link, useForm } from '@inertiajs/react'
 import SecondaryButton from '@/Components/SecondaryButton'
 import { useToast } from '@/Components/Toast'
-import useUserRouting from '../Shared/RoutingSlip/Hooks/useUserRouting'
 
 export default function ProcessRoutingSlip({ officesToEndorsedTo, routingSlip }) {
           const toast = useToast()
-          const [state, dispatch] = useUserRouting();
           const { data, setData, patch, processing, errors, isDirty } = useForm({
                     endorsedToOfficeId: '',
                     remarks: '',
@@ -17,7 +15,6 @@ export default function ProcessRoutingSlip({ officesToEndorsedTo, routingSlip })
           
           const handleSubmit = (e) => {
                     e.preventDefault();
-                    console.log(data);
                     patch(route('department-head.routing-slip.process', { routingSlip: routingSlip.id }), {
                               onSuccess: () => {
                                         toast('Processed!', 'Routing slip processed successfully');

@@ -7,9 +7,9 @@ use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\ProposalController;
 use App\Http\Controllers\Receiver\DashboardController;
 use App\Http\Controllers\Receiver\IncomingController;
-use App\Http\Controllers\Receiver\InitialRoutingSlipController;
+use App\Http\Controllers\Receiver\InitialRoutingController;
 use App\Http\Controllers\ReceiverController;
-use App\Http\Controllers\RoutingSlipController;
+use App\Http\Controllers\RoutingController;
 use App\Http\Controllers\TransactionController;
 use Illuminate\Support\Facades\Route;
 
@@ -29,42 +29,13 @@ Route::middleware(['auth'])->group(function () {
     Route::delete('/transaction/{transaction}/destroy', [TransactionController::class, 'destroy'])->name('transaction.destroy');
 
     // Routing slip routes
-    Route::get('/routing-slip', [RoutingSlipController::class, 'index'])->name('routing-slip.index');
-    Route::post('/routing-slip', [RoutingSlipController::class, 'store'])->name('routing-slip.store');
-    Route::get('/routing-slip/{transaction}/create', [RoutingSlipController::class, 'create'])->name('routing-slip.create');
+    Route::get('/routing', [RoutingController::class, 'index'])->name('routing.index');
+    Route::get('/routing/{routingSlip}/show', [RoutingController::class, 'show'])->name('routing.show');
+    Route::post('/routing', [RoutingController::class, 'store'])->name('routing.store');
+    Route::get('/routing/{transaction}/create', [RoutingController::class, 'create'])->name('routing.create');
 });
 
-
-
-
-
-
-// Office Head-only routes
-// Route::middleware(['auth', 'role:officeHead'])->prefix('receiver')->group(function () {
-
-//     //dedicated pages
-//     Route::get('/', [ReceiverController::class, 'index'])->name('receiver.dashboard');
-// });
-
-
-// Department Head-only routes
-
-// Receiver-only routes
-Route::middleware(['auth', 'role:receiver'])
-    ->prefix('receiver')
-    ->name('receiver.')
-    ->group(function () {
-
-        // Dedicated pages for the receiver role
-        Route::get('/', [DashboardController::class, 'index'])->name('dashboard');
-        //incoming
-        Route::post('/incoming', [IncomingController::class, 'store'])->name('incoming.store');
-        Route::get('/incoming/create', [IncomingController::class, 'create'])->name('incoming.create');
-        //routing-slip
-        Route::get('/routing-slip/{transaction}/create', [InitialRoutingSlipController::class, 'create'])->name('initial-routing.create');
-        Route::post('/routing-slip/{transaction}/initialize', [InitialRoutingSlipController::class, 'initialize'])->name('initial-routing.initialize');
-    });
-
+require __DIR__ . '/receiver.php';
 
 require __DIR__ . '/officeHead.php';
 

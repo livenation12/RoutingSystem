@@ -17,3 +17,7 @@ export const actionRequestedTypes = ['Immediate Action',
     'For Purchase',
     'Prepare Report'
 ]
+
+export const sourceTypes = ['External', 'Internal']
+
+export const paginationOptions = [1, 2, 5, 10, 25, 50]

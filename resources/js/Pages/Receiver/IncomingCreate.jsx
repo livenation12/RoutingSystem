@@ -13,11 +13,12 @@ export default function ProposalCreate() {
                 sourceType: 'External',
                 title: '',
                 description: '',
-                attachment: null,
+                attachments: [],
         });
-
+        
         const handleSubmit = (e) => {
                 e.preventDefault();
+
                 post(route('receiver.incoming.store'), {
                         onSuccess: () => {
                                 toast('Created', 'Proposal created successfully');
@@ -47,7 +48,6 @@ export default function ProposalCreate() {
                                                         Ensure your details is correct before submitting.
                                                 </p>
                                         </header>
-
                                         <ProposalForm
                                                 isDirty={isDirty}
                                                 onSubmit={handleSubmit}
@@ -57,9 +57,7 @@ export default function ProposalCreate() {
                                                 errors={errors}
                                         />
                                 </section>
-
                         </div>
-
                 </ReceiverLayout>
         );
 }

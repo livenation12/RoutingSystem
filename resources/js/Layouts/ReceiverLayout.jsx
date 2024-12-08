@@ -1,4 +1,6 @@
+import ApplicationLogo from '@/Components/ApplicationLogo';
 import Dropdown from '@/Components/Dropdown';
+import NavLink from '@/Components/NavLink';
 import ResponsiveNavLink from '@/Components/ResponsiveNavLink';
 import { Link, usePage } from '@inertiajs/react';
 import { useState } from 'react';
@@ -16,9 +18,27 @@ export default function ReceiverLayout({ header, children }) {
                                                   <div className="flex h-16 justify-between">
                                                             <div className="flex">
                                                                       <div className="flex shrink-0 items-center">
-                                                                                <Link href="/">
-                                                                                          <p className="block h-9 w-auto fill-current text-gray-800 dark:text-gray-200 text-xl font-semibold">DASMO Receiving</p>
+                                                                                <Link href={route('receiver.dashboard')} className='text-center  text-gray-800 dark:text-gray-200'>
+                                                                                          <ApplicationLogo className="block h-9 w-auto fill-current" />
+                                                                                          <div className='space-x-2'>
+                                                                                                    <span className='border-r pr-2'>Receiving</span>
+                                                                                                    <span>{user?.office?.officeName}</span>
+                                                                                          </div>
                                                                                 </Link>
+                                                                      </div>
+                                                                      <div className="hidden space-x-8 sm:-my-px sm:ms-10 sm:flex">
+                                                                                <NavLink
+                                                                                          href={route('receiver.dashboard')}
+                                                                                          active={route().current('receiver.dashboard')}
+                                                                                >
+                                                                                          Transactions
+                                                                                </NavLink>
+                                                                                <NavLink
+                                                                                          href={route('routing.index')}
+                                                                                          active={route().current('routing.index')}
+                                                                                >
+                                                                                          Routings
+                                                                                </NavLink>
                                                                       </div>
                                                             </div>
 

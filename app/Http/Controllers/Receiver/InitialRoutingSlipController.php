@@ -7,6 +7,7 @@ use App\Http\Requests\Receiver\InitializeRoutingSlipRequest;
 use App\Http\Resources\TransactionResource;
 use App\Models\RoutingSlip;
 use App\Models\Transaction;
+use App\Models\User;
 
 class InitialRoutingSlipController extends Controller
 {
@@ -16,13 +17,14 @@ class InitialRoutingSlipController extends Controller
         RoutingSlip::create([
             ...$validated,
             'transactionId' => $transaction->id,
-            'fromUserId' => 4
-        ]);
+            'fromUserId' => User::getDepartmentHead()->id
+        ]); 
         return to_route('receiver.dashboard');
     }
 
     public function create(Transaction $transaction)
     {
+
         TransactionResource::withoutWrapping();
         return inertia("Receiver/InitialRoutingSlipCreate", [
             'transaction' => new TransactionResource($transaction),

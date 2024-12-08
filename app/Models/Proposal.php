@@ -30,6 +30,11 @@ class Proposal extends Model
     }
 
 
+    public function attachments()
+    {
+        return $this->hasMany(Attachment::class, 'proposalId');
+    }
+
     /**
      * Generate a new tracking ID for a proposal.
      *

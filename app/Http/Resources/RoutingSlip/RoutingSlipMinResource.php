@@ -6,6 +6,7 @@ use App\Http\Resources\TransactionResource;
 use App\Http\Resources\User\UserMinResource;
 use App\Http\Resources\UserResource;
 use Auth;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\JsonResource;
 
@@ -26,7 +27,8 @@ class RoutingSlipMinResource extends JsonResource
             'docTin' => $this->docTin,
             'fromUser' => new UserMinResource($this->whenLoaded('fromUser')),
             'urgency' => $this->urgency,
-            'toProcess' => Auth::user()->id === $this->fromUserId && !$this->endorsedToOfficeId && !$this->transaction->accomplishmentDate
+            'toProcess' => Auth::user()->id === $this->fromUserId && !$this->endorsedToOfficeId && !$this->transaction->accomplishmentDate,
+            'createdAt' => Carbon::parse($this->created_at)->diffForHumans(),
         ];
     }
 }

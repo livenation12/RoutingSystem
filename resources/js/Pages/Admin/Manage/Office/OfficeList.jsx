@@ -18,15 +18,13 @@ export default function OfficeList({ offices }) {
                               </header>
                               <div className='grid lg:grid-cols-2 gap-2'>
                                         {offices.length > 0 ? offices.map((office) => (
-                                                  <div key={office.id} className='border rounded-lg p-4'>
-                                                            <header className='flex justify-between'>
-                                                                      <h2 className="main-text">
-                                                                                {office.officeName}
-                                                                      </h2>
-                                                                      <Link href={route('admin.office.edit', office.id)}>
-                                                                                <SecondaryButton><PenBox size={15} /></SecondaryButton>
-                                                                      </Link>
-                                                            </header>
+                                                  <div key={office.id} className='border rounded-lg p-4 relative'>
+                                                            <h2 className="main-text">
+                                                                      {office.officeName}
+                                                            </h2>
+                                                            <Link className='absolute top-3 right-3' href={route('admin.office.edit', office.id)}>
+                                                                      <SecondaryButton><PenBox size={15} /></SecondaryButton>
+                                                            </Link>
                                                             <div className="subtext">
                                                                       <p><strong>Office Head: </strong>{office.officeHead.fullName}</p>
                                                                       {office.officialAlternate && <p>Official Alternate: {office.officialAlternate.fullName}</p>}

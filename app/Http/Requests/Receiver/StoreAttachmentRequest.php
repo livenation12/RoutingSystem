@@ -1,10 +1,10 @@
 <?php
 
-namespace App\Http\Requests\Proposal;
+namespace App\Http\Requests\Receiver;
 
 use Illuminate\Foundation\Http\FormRequest;
 
-class StoreProposalRequest extends FormRequest
+class StoreAttachmentRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -22,10 +22,6 @@ class StoreProposalRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'title' => ['required', 'string', 'max:255'],
-            'description' => ['nullable'],
-            'source' => ['required'],
-            'sourceType' => ['required'],
             'attachments' => ['required', 'array'],  // Ensure it's an array of files
             'attachments.*' => ['image', 'mimes:jpeg,png,jpg,gif,svg', 'max:10240'],  // Max file size = 10MB
         ];

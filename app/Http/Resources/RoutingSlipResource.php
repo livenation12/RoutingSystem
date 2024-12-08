@@ -25,7 +25,7 @@ class RoutingSlipResource extends JsonResource
             'action' => $this->action,
             'endorsedTo' => new OfficeResource($this->endorsedTo),
             'status' => $this->status,
-            'additionalReamarks' => $this->additionalRemarks,
+            'additionalRemarks' => $this->additionalRemarks,
             'remarks' => RemarksResource::collection($this->remarks),
             'actionRequested' => $this->actionRequested,
             'transaction' => new TransactionResource($this->whenLoaded('transaction')),

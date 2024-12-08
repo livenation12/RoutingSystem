@@ -3,16 +3,18 @@ import useTransactions from './Hooks/useTransactions';
 import { Link, usePage } from '@inertiajs/react';
 import RoutingList from '@/Pages/Shared/RoutingSlip/Partials/RoutingList';
 import PrimaryButton from '@/Components/PrimaryButton';
-
+import SecondaryButton from '@/Components/SecondaryButton';
+import { PenBox } from 'lucide-react';
 
 //This component should be wrapped by TransactionProvider
 export default function ViewTransaction() {
-  const [state, dispatch] = useTransactions();
+  const [role] = usePage().props.auth.roles
+  const [state] = useTransactions();
   const { transaction } = state;
 
   if (!transaction) {
     return (
-      <p>No transaction to view yet</p>
+      <p className='text'>No transaction to view yet</p>
     )
   }
 
@@ -20,7 +22,7 @@ export default function ViewTransaction() {
     <div className='space-y-5'>
       <div className='flex justify-between'>
         <h3 className='section-header mb-1'>Proposal</h3>
-        {transaction.routingSlips.length === 0 ?
+        {transaction.routingSlips.length === 0 && role === 'receiver' ?
           <Link href={route('receiver.initial-routing.create', { transaction: transaction.id })}>
             <PrimaryButton>
               Initialize Routing
@@ -29,23 +31,36 @@ export default function ViewTransaction() {
           : null
         }
       </div>
-      <img className='object-cover max-h-min h-[300px] w-full' src={transaction?.proposal.attachment} alt="" />
-      <div className='space-y-2 relative'>
+      <div className='flex max-h-min h-[300px] overflow-x-auto'>
+        {transaction.proposal.attachments.length > 0 ? transaction.proposal.attachments.map((attachment, index) => (
+          <a href={attachment.url} target='_blank' key={index}>
+            <img className='h-full max-w-[300px] object-cover' src={attachment.url} alt="Transaction attachment" />
+          </a>
+        )) :
+          <p className='text-red-500'>All attachments are deleted, Please update this transaction</p>
+        }
+      </div>
+      <div className='space-y-2 relative grid md:grid-cols-2'>
+        {role === 'receiver' || role === 'admin' ?
+          <Link className='absolute right-0 top-0' href={route('receiver.transaction.edit', transaction.id)} title='Edit'>
+            <SecondaryButton>
+              <PenBox />
+            </SecondaryButton>
+          </Link>
+          : null
+        }
         <div>
-          <span className='text-gray-300'>Traking ID</span>
-          <p className='ms-2 text-gray-400'>{transaction?.proposal.trackingId}</p>
+          <span className='main-text mb-2'>Traking ID</span>
+          <p className='ms-2 text'>{transaction?.proposal.trackingId}</p>
+          <span className='main-text mb-2'>Title</span>
+          <p className='ms-2 text'>{transaction?.proposal.title}</p>
+          <span className='main-text mb-2'>Source</span>
+          <p className='ms-2 text'>{transaction?.proposal.source}</p>
         </div>
+
         <div>
-          <span className='text-gray-300'>Title</span>
-          <p className='ms-2 text-gray-400'>{transaction?.proposal.title}</p>
-        </div>
-        <div>
-          <span className='text-gray-300'>Source</span>
-          <p className='ms-2 text-gray-400'>{transaction?.proposal.source}</p>
-        </div>
-        <div>
-          <span className='text-gray-300'>Description</span>
-          <p className='ms-2 text-gray-400'>{transaction?.proposal.description}</p>
+          <span className='main-text'>Description</span>
+          <p className='ms-2 text'>{transaction?.proposal.description}</p>
         </div>
       </div>
 

@@ -24,7 +24,13 @@ class ProposalResource extends JsonResource
             'sourceType' => $this->sourceType,
             'title' => $this->title,
             'description' => $this->description,
-            'attachment' => Storage::url($this->attachment),
+            // Process attachments to return an array of URLs
+            'attachments' => $this->attachments->map(function ($attachment) {
+                return [
+                    'url' => Storage::url($attachment->filePath),
+                    'id' => $attachment->id
+                ]; // Assuming `file` is the column storing the file path
+            }),
         ];
     }
 }

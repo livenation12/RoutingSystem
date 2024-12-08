@@ -17,7 +17,7 @@ export default function OfficeHeadLayout({ header, children }) {
                                                   <div className="flex h-16 justify-between">
                                                             <div className="flex">
                                                                       <div className="flex shrink-0 items-center">
-                                                                                <Link href="/" className='text-center  text-gray-800 dark:text-gray-200'>
+                                                                                <Link href={route('office-head.dashboard')} className='text-center  text-gray-800 dark:text-gray-200'>
                                                                                           <ApplicationLogo className="block h-9 w-auto fill-current" />
                                                                                           <div className='space-x-2'>
                                                                                                     <span className='border-r pr-2'>Office Head</span>
