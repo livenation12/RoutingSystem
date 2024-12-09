@@ -24,7 +24,7 @@ Route::middleware(['auth'])->group(function () {
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
     // Transaction routes
     Route::get('/transaction', [TransactionController::class, 'index'])->name('transaction.index');
-    Route::get('/transaction/{transaction}/show', [TransactionController::class, 'show'])->name('transaction.show');
+    Route::get('/transaction/{transaction}', [TransactionController::class, 'show'])->name('transaction.show');
     Route::get('/transaction/{transaction}/edit', [TransactionController::class, 'edit'])->name('transaction.edit');
     Route::delete('/transaction/{transaction}/destroy', [TransactionController::class, 'destroy'])->name('transaction.destroy');
 
@@ -33,6 +33,7 @@ Route::middleware(['auth'])->group(function () {
     Route::get('/routing/{routingSlip}/show', [RoutingController::class, 'show'])->name('routing.show');
     Route::post('/routing', [RoutingController::class, 'store'])->name('routing.store');
     Route::get('/routing/{transaction}/create', [RoutingController::class, 'create'])->name('routing.create');
+
 });
 
 require __DIR__ . '/receiver.php';

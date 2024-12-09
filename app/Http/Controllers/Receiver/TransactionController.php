@@ -6,7 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Http\Requests\Receiver\RemoveAttachmentRequest;
 use App\Http\Requests\Receiver\StoreAttachmentRequest;
 use App\Http\Requests\Receiver\UpdateTransactionRequest;
-use App\Http\Resources\TransactionResource;
+use App\Http\Resources\Transaction\TransactionResource;
 use App\Models\Attachment;
 use App\Models\Proposal;
 use App\Models\Transaction;

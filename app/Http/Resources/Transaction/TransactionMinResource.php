@@ -1,15 +1,15 @@
 <?php
 
-namespace App\Http\Resources;
+namespace App\Http\Resources\Transaction;
 
+use App\Http\Resources\ProposalResource;
 use App\Http\Resources\RoutingSlip\RoutingSlipMinResource;
 use App\Http\Resources\User\UserMinResource;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\JsonResource;
 
-
-class TransactionResource extends JsonResource
+class TransactionMinResource extends JsonResource
 {
     /**
      * Transform the resource into an array.
@@ -18,7 +18,6 @@ class TransactionResource extends JsonResource
      */
     public function toArray(Request $request): array
     {
-
         return [
             'id' => $this->id,
             'receivedBy' => new UserMinResource($this->receiver),

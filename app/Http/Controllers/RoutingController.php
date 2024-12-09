@@ -5,7 +5,7 @@ namespace App\Http\Controllers;
 use App\Http\Requests\RoutingSlip\StoreRoutingSlipRequest;
 use App\Http\Resources\RoutingSlip\RoutingSlipMinResource;
 use App\Http\Resources\RoutingSlipResource;
-use App\Http\Resources\TransactionResource;
+use App\Http\Resources\Transaction\TransactionResource;
 use App\Models\Office;
 use App\Models\Remarks;
 use App\Models\RoutingSlip;
@@ -46,8 +46,6 @@ class RoutingController extends Controller
         ]);
     }
 
-
-
     public function show(RoutingSlip $routingSlip)
     {
         $routingSlip->load(['transaction', 'transaction.proposal', 'transaction.proposal.attachments', 'fromUser']);
@@ -87,5 +85,5 @@ class RoutingController extends Controller
         return redirect()->route('routing-slip.index');
     }
 
-    public function full() {}
+
 }

@@ -23,7 +23,7 @@ class ProposalResource extends JsonResource
             'source' => $this->source,
             'sourceType' => $this->sourceType,
             'title' => $this->title,
-            'description' => $this->description,
+            'description' => $this->description ?? '--',
             // Process attachments to return an array of URLs
             'attachments' => $this->attachments->map(function ($attachment) {
                 return [

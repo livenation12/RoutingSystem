@@ -3,7 +3,7 @@
 namespace App\Http\Controllers\Receiver;
 
 use App\Http\Controllers\Controller;
-use App\Http\Resources\TransactionResource;
+use App\Http\Resources\Transaction\TransactionResource;
 use App\Models\Transaction;
 use Illuminate\Http\Request;
 

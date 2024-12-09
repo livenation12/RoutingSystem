@@ -2,8 +2,9 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Resources\Transaction\TransactionMinResource;
 use App\Models\Transaction;
-use App\Http\Resources\TransactionResource;
+use App\Http\Resources\Transaction\TransactionResource;
 use Illuminate\Support\Facades\Storage;
 
 class TransactionController extends Controller
@@ -13,7 +14,7 @@ class TransactionController extends Controller
         $query = Transaction::query();
         $transactions = $query->orderBy('id', 'desc')->paginate(10);
         return inertia("Transaction/Index", [
-            "transactions" => TransactionResource::collection($transactions)
+            "transactions" => TransactionMinResource::collection($transactions)
         ]);
     }
 
@@ -28,6 +29,7 @@ class TransactionController extends Controller
     public function show(Transaction $transaction)
     {
         TransactionResource::withoutWrapping();
+        $transaction = $transaction->load(['routingSlips', 'proposal', 'routingSlips.fromUser']);
         return inertia("Transaction/TransactionShow", [
             'transaction' => new TransactionResource($transaction),
         ]);
@@ -38,4 +40,6 @@ class TransactionController extends Controller
         $transaction->delete();
         return redirect()->route('transaction.index');
     }
+
+
 }

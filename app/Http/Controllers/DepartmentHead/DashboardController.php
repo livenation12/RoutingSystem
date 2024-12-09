@@ -4,7 +4,7 @@ namespace App\Http\Controllers\DepartmentHead;
 
 use App\Http\Controllers\Controller;
 use App\Http\Resources\RoutingSlipResource;
-use App\Http\Resources\TransactionResource;
+use App\Http\Resources\Transaction\TransactionResource;
 use App\Models\Office;
 use App\Models\RoutingSlip;
 use App\Models\Transaction;
