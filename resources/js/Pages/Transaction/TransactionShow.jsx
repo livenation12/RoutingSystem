@@ -36,8 +36,8 @@ export default function TransactionShow({ transaction }) {
                         <div>
                             <h3>Attachments</h3>
                             <div className="flex max-w-full overflow-auto">
-                                {proposal.attachments.length ? proposal.attachments.map(() => {
-                                    <img className='h-full max-w-[300px] object-cover' src={attachment.url} alt="Transaction attachment" />
+                                {proposal.attachments.length ? proposal.attachments.map((attachment, index) => {
+                                    <img key={index} className='h-full max-w-[300px] object-cover' src={attachment.url} alt={`Attachment[${index}]`} />
                                 }) :
                                     <p className="text-red-500">No attachments found</p>
                                 }
@@ -50,8 +50,8 @@ export default function TransactionShow({ transaction }) {
                     <div className="mt-3">
                         {transaction.routingSlips.length > 0 ?
                             <div className="grid lg:grid-cols-2">
-                                {transaction.routingSlips.map((routing) => (
-                                    <dl>
+                                {transaction.routingSlips.map((routing, index) => (
+                                    <dl key={index}>
                                         <dt>Doc TIN</dt>
                                         <dd>{routing.docTin}</dd>
                                         <dt>From</dt>

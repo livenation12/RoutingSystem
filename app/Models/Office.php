@@ -12,7 +12,8 @@ class Office extends Model
     protected $fillable = [
         'officeName',
         'officeHeadId',
-        'officialAlternateId'
+        'officialAlternateId',
+        'abbr'
     ];
 
     public function officeHead()

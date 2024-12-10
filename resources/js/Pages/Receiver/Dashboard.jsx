@@ -20,10 +20,10 @@ export default function Dashboard({ transactions }) {
             <Head title={'Receiving'} />
             <div className='content-wrapper'>
                 <div className='grid md:grid-cols-5 gap-2'>
-                    <section className='section-wrapper md:col-span-2 relative min-h-[500px] overflow-y-auto'>
+                    <section className='section-wrapper md:col-span-2 relative min-h-[70vh] overflow-y-auto'>
                         <TransactionsTable transactions={transactions} />
                     </section>
-                    <section className='section-wrapper md:col-span-3 max-h-[500px] overflow-y-auto'>
+                    <section className='section-wrapper md:col-span-3 max-h-[70vh] overflow-y-auto'>
                         <ViewTransaction />
                     </section>
                 </div>

@@ -49,19 +49,16 @@ export default function ViewTransaction() {
           </Link>
           : null
         }
-        <div>
-          <span className='main-text mb-2'>Traking ID</span>
-          <p className='ms-2 text'>{transaction?.proposal.trackingId}</p>
-          <span className='main-text mb-2'>Title</span>
-          <p className='ms-2 text'>{transaction?.proposal.title}</p>
-          <span className='main-text mb-2'>Source</span>
-          <p className='ms-2 text'>{transaction?.proposal.source}</p>
-        </div>
-
-        <div>
-          <span className='main-text'>Description</span>
-          <p className='ms-2 text'>{transaction?.proposal.description}</p>
-        </div>
+        <dl>
+          <dt>Traking ID</dt>
+          <dd>{transaction?.proposal.trackingId}</dd>
+          <dt>Title</dt>
+          <dd>{transaction?.proposal.title}</dd>
+          <dt>Source</dt>
+          <dd>{transaction?.proposal.source}</dd>
+          <dt>Description</dt>
+          <dd>{transaction.proposal.description}</dd>
+        </dl>
       </div>
 
       <div>

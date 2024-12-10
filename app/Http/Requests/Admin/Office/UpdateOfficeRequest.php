@@ -24,7 +24,8 @@ class UpdateOfficeRequest extends FormRequest
         return [
             'officeName' => ['required'],
             'officeHeadId' => ['required', 'exists:users,id', 'different:officialAlternateId'],
-            'officialAlternateId' => ['nullable', 'exists:users,id', 'different:officialHeadId']
+            'officialAlternateId' => ['nullable', 'exists:users,id', 'different:officialHeadId'],
+            'abbr' => ['required', 'unique:offices,abbr']
         ];
     }
 

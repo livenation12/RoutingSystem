@@ -11,6 +11,7 @@ export default function OfficeEdit({ users, office }) {
         officeName: office.officeName,
         officeHeadId: office.officeHeadId || '',
         officialAlternateId: office.officialAlternateId || '',
+        abbr: office.abbr || ''
     })
     const handleSubmit = (e) => {
         e.preventDefault()

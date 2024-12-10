@@ -11,7 +11,6 @@ use App\Models\Attachment;
 use App\Models\Proposal;
 use App\Models\Transaction;
 use DB;
-use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
 
 class TransactionController extends Controller
