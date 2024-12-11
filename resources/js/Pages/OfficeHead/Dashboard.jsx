@@ -1,9 +1,10 @@
 import OfficeHeadLayout from '@/Layouts/OfficeHeadLayout'
-import { Head } from '@inertiajs/react'
+import { Head, usePage } from '@inertiajs/react'
 
 import ViewTransaction from '../Shared/Transactions/ViewTransaction'
 import TransactionsTable from '../Shared/Transactions/TransactionsTable'
 export default function Dashboard({ transactions }) {
+
     return (
         <OfficeHeadLayout>
             <Head title='Office Head' />

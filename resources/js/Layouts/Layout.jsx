@@ -3,10 +3,14 @@ import React from 'react'
 import AdminLayout from './AdminLayout'
 import ReceiverLayout from './ReceiverLayout'
 import GuestLayout from './GuestLayout'
+import DepartmentHeadLayout from './DepartmentHeadLayout'
+import OfficeHeadLayout from './OfficeHeadLayout'
 
 const layoutMap = {
     admin: AdminLayout,
     receiver: ReceiverLayout,
+    deptHead: DepartmentHeadLayout,
+    officeHead: OfficeHeadLayout
     // Add more roles here as needed
 }
 

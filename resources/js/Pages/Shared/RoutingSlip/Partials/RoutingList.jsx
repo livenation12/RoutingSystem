@@ -1,7 +1,7 @@
 import PrimaryButton from "@/Components/PrimaryButton"
 import SecondaryButton from "@/Components/SecondaryButton"
 import { Link, usePage } from "@inertiajs/react"
-import { ArrowUpDown, EllipsisVertical } from "lucide-react"
+import { ArrowUpDown, EllipsisVertical, RefreshCw } from "lucide-react"
 
 export default function RoutingList({ routingSlips, transactionId }) {
     if (routingSlips.length === 0) {
@@ -11,6 +11,7 @@ export default function RoutingList({ routingSlips, transactionId }) {
     }
     const [role] = usePage().props.auth.roles
     const processRouteBaseOnRole = role === 'deptHead' ? 'department-head.routing-slip.form' : 'office-head.routing-slip.form'
+    console.log(routingSlips);
 
     return (
         <>
@@ -18,7 +19,7 @@ export default function RoutingList({ routingSlips, transactionId }) {
                 Routing Slips
             </h2>
             {routingSlips.length > 0 &&
-                <div className='grid lg:grid-cols-2 gap-2'>
+                <div className='grid gap-2'>
                     {routingSlips.map((routingSlip) => (
                         <div key={routingSlip.id} className='rounded-lg border p-4 hover:ring-1 relative group'>
                             <header className='flex justify-between'>
@@ -26,15 +27,26 @@ export default function RoutingList({ routingSlips, transactionId }) {
                                     {routingSlip.fromUser?.fullName}
                                 </h2>
                                 <div className="inline-flex gap-2">
+                                    {routingSlip.toProcess && role === 'officeHead' ?
+                                        <Link href={route('office-head.routing-slip.revert', routingSlip.id)}>
+                                            <PrimaryButton>
+                                                <RefreshCw className="me-1.5"/> Revert
+                                            </PrimaryButton>
+                                        </Link>
+                                        : null
+                                    }
                                     {
                                         routingSlip.toProcess ?
-                                            <Link href={route(processRouteBaseOnRole, routingSlip.id)}>
-                                                <PrimaryButton>
-                                                    <ArrowUpDown />
-                                                </PrimaryButton>
-                                            </Link>
+                                            <>
+                                                <Link href={route(processRouteBaseOnRole, routingSlip.id)}>
+                                                    <PrimaryButton>
+                                                        <ArrowUpDown /> 
+                                                    </PrimaryButton>
+                                                </Link>
+                                            </>
                                             : null
                                     }
+
                                     <Link href={route('routing.show', routingSlip.id)}>
                                         <SecondaryButton>
                                             <EllipsisVertical />
@@ -45,7 +57,6 @@ export default function RoutingList({ routingSlips, transactionId }) {
                             <p className="mt-1 text-sm text-gray-600 dark:text-gray-400">
                                 {routingSlip.docTin}
                             </p>
-
                         </div>
                     ))}
                 </div>

@@ -9,7 +9,6 @@ use App\Models\Remarks;
 use App\Models\RoutingSlip;
 use App\Models\Transaction;
 use Auth;
-use Illuminate\Http\Request;
 
 class ProcessRoutingSlip extends Controller
 {

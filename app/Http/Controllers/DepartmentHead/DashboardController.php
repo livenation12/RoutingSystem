@@ -32,34 +32,3 @@ class DashboardController extends Controller
     }
 }
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-// class DashboardController extends Controller
-// {
-//     public function index()
-//     {
-//         $perPage = 10; // Adjust this number as needed
-//         $officesToEndorsedTo = Office::endorsedToOptions();
-//         // Fetch paginated records
-//         $routings = RoutingSlip::where('fromUserId', Auth::user()->id)
-//             ->with(['transaction', 'transaction.proposal'])
-//             ->orderBy('id', 'desc')
-//             ->paginate($perPage);
-//         // Return the data to your Inertia view
-//         return inertia('DepartmentHead/Dashboard', [
-//             'routings' => RoutingSlipResource::collection($routings),
-//             'officesToEndorsedTo' => $officesToEndorsedTo
-//         ]);
-//     }
-// }

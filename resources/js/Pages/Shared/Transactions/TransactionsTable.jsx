@@ -28,6 +28,9 @@ export default function TransactionsTable({ transactions, search = '' }) {
             case 'receiver':
                 get(route('receiver.dashboard'), { preserveState: true });
                 break;
+            case 'officeHead':
+                get(route('office-head.dashboard'), { preserveState: true })
+                break
             default:
                 get(route('admin.transaction.index'), { preserveState: true });
         }

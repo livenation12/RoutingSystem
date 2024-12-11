@@ -4,7 +4,6 @@ namespace App\Http\Resources\RoutingSlip;
 
 use App\Http\Resources\Transaction\TransactionResource;
 use App\Http\Resources\User\UserMinResource;
-use App\Http\Resources\UserResource;
 use Auth;
 use Carbon\Carbon;
 use Illuminate\Http\Request;

@@ -118,10 +118,9 @@ class TransactionController extends Controller
                     // Store the new file (assuming you want to save it to storage)
                     $filePath = $attachment->storeAs(Proposal::getFileDirectory(), $fileName, 'public');
 
-                    // If you have a model that stores the filenames in the database, you can do it here
                     $transaction->proposal->attachments()->create([
                         'fileName' => $fileName,
-                        'filePath' => $filePath, // Or adjust according to how you store the file paths
+                        'filePath' => $filePath, 
                     ]);
                 }
                 DB::commit();

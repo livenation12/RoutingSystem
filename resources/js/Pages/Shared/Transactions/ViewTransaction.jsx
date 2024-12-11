@@ -8,6 +8,7 @@ import { PenBox } from 'lucide-react';
 
 //This component should be wrapped by TransactionProvider
 export default function ViewTransaction() {
+  
   const [role] = usePage().props.auth.roles
   const [state] = useTransactions();
   const { transaction } = state;
@@ -60,7 +61,6 @@ export default function ViewTransaction() {
           <dd>{transaction.proposal.description}</dd>
         </dl>
       </div>
-
       <div>
         <RoutingList routingSlips={transaction.routingSlips} transactionId={transaction.id} />
       </div>

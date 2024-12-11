@@ -12,4 +12,6 @@ class CounterTracker extends Model
         'monthYear',
         'counter'
     ];
+
+    public $timestamps = false;
 }

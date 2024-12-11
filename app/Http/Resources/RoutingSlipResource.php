@@ -6,7 +6,7 @@ use App\Http\Resources\Transaction\TransactionResource;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\JsonResource;
-
+use Auth;
 class RoutingSlipResource extends JsonResource
 {
     /**
@@ -31,7 +31,7 @@ class RoutingSlipResource extends JsonResource
             'actionRequested' => $this->actionRequested,
             'transaction' => new TransactionResource($this->whenLoaded('transaction')),
             'created_at' => Carbon::parse($this->created_at)->diffForHumans(),
-            'inPossession' => empty($this->endorsedToOfficeId) 
+            'toProcess' => Auth::user()->id === $this->fromUserId && !$this->endorsedToOfficeId && !$this->transaction->accomplishmentDate,
         ];
     }
 }
