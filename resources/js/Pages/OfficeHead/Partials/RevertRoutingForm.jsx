@@ -1,9 +1,10 @@
-import { FormTextArea } from '@/Components/FormEntities'
+import { FormSelect, FormTextArea } from '@/Components/FormEntities'
 import PrimaryButton from '@/Components/PrimaryButton'
+import { usePage } from '@inertiajs/react'
 import React from 'react'
 
-export default function RevertRoutingForm({ onSubmit, errors, setData, data, isDirty, processing }) {
-
+export default function RevertRoutingForm({ onSubmit, errors, setData, data, isDirty, processing, offices }) {
+  
   const handleChange = (e) => {
     const { name, value } = e.target
     setData((prev) => ({
@@ -11,8 +12,23 @@ export default function RevertRoutingForm({ onSubmit, errors, setData, data, isD
       [name]: value
     }))
   }
+
+  const structOptions = offices.map((office) => {
+    return {
+      label: office.officeName,
+      value: office.officeName
+    }
+  })
+
   return (
     <form onSubmit={onSubmit} className="max-w-xl space-y-6">
+      <FormSelect
+        labelValue='Office'
+        onChange={handleChange}
+        name={'office'}
+        options={structOptions}
+        message={errors.office}
+      />
       <FormTextArea
         value={data.remarks}
         labelValue='Remarks'
@@ -28,7 +44,7 @@ export default function RevertRoutingForm({ onSubmit, errors, setData, data, isD
         message={errors.additionalRemarks}
       />
       <PrimaryButton
-        disabled={isDirty || processing}
+        disabled={!isDirty || processing}
         type='submit'
         isLoading={processing}
       >

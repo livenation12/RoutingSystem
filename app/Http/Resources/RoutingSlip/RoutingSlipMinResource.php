@@ -2,6 +2,7 @@
 
 namespace App\Http\Resources\RoutingSlip;
 
+use App\Http\Resources\OfficeResource;
 use App\Http\Resources\Transaction\TransactionResource;
 use App\Http\Resources\User\UserMinResource;
 use Auth;
@@ -25,7 +26,9 @@ class RoutingSlipMinResource extends JsonResource
             'transaction' => new TransactionResource($this->whenLoaded('transaction')),
             'docTin' => $this->docTin,
             'fromUser' => new UserMinResource($this->whenLoaded('fromUser')),
+            'endorsedTo' => new OfficeResource($this->whenLoaded('endorsedTo')),
             'urgency' => $this->urgency,
+            'subject' => $this->subject,
             'toProcess' => Auth::user()->id === $this->fromUserId && !$this->endorsedToOfficeId && !$this->transaction->accomplishmentDate,
             'createdAt' => Carbon::parse($this->created_at)->diffForHumans(),
         ];

@@ -31,11 +31,11 @@ class RoutingController extends Controller
             });
             $query->orWhere('docTin', 'like', "%$search%");
         }
-        
+
         $query->orderBy($sort, $direction);
 
         // Fetch the routings with pagination
-        $routings = $query->with('fromUser')->paginate($paginate);
+        $routings = $query->with(['fromUser', 'endorsedTo'])->paginate($paginate);
 
         // Return the results to the Inertia page with pagination links and search value
         return inertia("RoutingSlip/Index", [
@@ -46,8 +46,11 @@ class RoutingController extends Controller
         ]);
     }
 
+
+
     public function show(RoutingSlip $routingSlip)
     {
+
         $routingSlip->load(['transaction', 'transaction.proposal', 'transaction.proposal.attachments', 'fromUser']);
         return inertia("RoutingSlip/Show", [
             'routingSlip' => new RoutingSlipResource($routingSlip)
@@ -59,7 +62,7 @@ class RoutingController extends Controller
         $offices = Office::all();
         TransactionResource::withoutWrapping();
         return inertia("Shared/RoutingSlip/RoutingSlipCreate", [
-            'transaction' => new TransactionResource($transaction),
+            'transaction' => new ($transaction),
             'offices' => $offices
         ]);
     }
@@ -67,8 +70,6 @@ class RoutingController extends Controller
     public function store(StoreRoutingSlipRequest $request)
     {
         $validatedRequest = $request->validated();
-        // Ensure docTin is being added to the validated request array
-        $validatedRequest['docTin'] = RoutingSlip::generateDocTin();
         $validatedRequest['fromUserId'] = Auth::user()->id;
 
         // Create the RoutingSlip and return
@@ -85,5 +86,5 @@ class RoutingController extends Controller
         return redirect()->route('routing-slip.index');
     }
 
-
+    public function full() {}
 }

@@ -7,11 +7,6 @@ export default function Show({ routingSlip }) {
 
     const [role] = usePage().props.auth.roles
 
-    // const backingRoute = role === 'receiver' ? route('receiver.dashboard') : route('transaction.show', routingSlip.transactionId)
-    console.log(role);
-
-    console.log(routingSlip);
-
     return (
         <Layout
             header={

@@ -4,15 +4,20 @@ import { Head, Link, useForm } from '@inertiajs/react'
 import React from 'react'
 import RevertRoutingForm from './Partials/RevertRoutingForm'
 
-export default function RevertRouting({ routingSlip }) {
-    const { data, setData, processing, errors, patch, isDirty } = useForm({
+export default function RevertRouting({ routingSlip, offices }) {
+    const { data, setData, processing, errors, post, isDirty } = useForm({
         remarks: '',
-        additionalRemarks: ''
+        additionalRemarks: '',
+        office: ''
     })
 
     const handleSubmit = (e) => {
         e.preventDefault()
-        patch(route('', routingSlip.id))
+        post(route('office-head.routing-slip.revert', routingSlip.id), {
+            onSuccess: () => {
+                toast('Reverted!', 'Routing slip reverted successfully');
+            },
+        })
     }
 
     return (
@@ -39,6 +44,7 @@ export default function RevertRouting({ routingSlip }) {
                         </p>
                     </header>
                     <RevertRoutingForm
+                        offices={offices}
                         isDirty={isDirty}
                         onSubmit={handleSubmit}
                         errors={errors}

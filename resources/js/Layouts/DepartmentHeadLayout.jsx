@@ -1,6 +1,7 @@
 import ApplicationLogo from '@/Components/ApplicationLogo';
 import Dropdown from '@/Components/Dropdown';
 import ResponsiveNavLink from '@/Components/ResponsiveNavLink';
+import NavLink from '@/Components/NavLink';
 import { Link, usePage } from '@inertiajs/react';
 import { useState } from 'react';
 
@@ -21,6 +22,14 @@ export default function DepartmentHeadLayout({ header, children }) {
                                     <ApplicationLogo className="block h-9 w-auto fill-current" />
                                     <span>Department Head</span>
                                 </Link>
+                            </div>
+                            <div className="hidden space-x-8 sm:-my-px sm:ms-10 sm:flex">
+                                <NavLink
+                                    href={route('routing.index')}
+                                    active={route().current('routing.index')}
+                                >
+                                    Routings
+                                </NavLink>
                             </div>
                         </div>
                         <div className="hidden sm:ms-6 sm:flex sm:items-center">

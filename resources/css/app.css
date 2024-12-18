@@ -70,9 +70,9 @@ table.styled tbody tr td.styled {
 /*Details */
 
 dt {
-    @apply text-sm text-gray-400
+    @apply text-sm dark:text-gray-400 font-semibold
 }
 
 dd {
-    @apply font-semibold ml-2 mb-2
+    @apply ml-2 mb-2
 }

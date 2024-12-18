@@ -1,5 +1,4 @@
 import Pagination from '@/Components/Pagination';
-import { paginationOptions } from '@/fixed-options';
 import { Link, router } from '@inertiajs/react';
 import { ArrowDownNarrowWide, ArrowUpNarrowWide, Ellipsis } from 'lucide-react';
 import { useEffect, useState } from 'react';
@@ -11,11 +10,12 @@ export default function RoutingsTable({ routings, search = '', sortColumn = '', 
     const tableHeaders = [
         { label: 'Doc Tin', labelKey: 'docTin', sortable: true },
         { label: 'From', labelKey: 'fromUserId', sortable: true },
+        { label: 'To', labelKey: 'endorsedTo', sortable: true },
+        { label: 'Subject' },
         { label: 'Status', sortable: true },
         { label: '', sortable: false },
         { label: '', sortable: false },
     ];
-
     useEffect(() => {
         // Automatically update the search value when it changes
         if (currentSearch !== search) {
@@ -75,8 +75,6 @@ export default function RoutingsTable({ routings, search = '', sortColumn = '', 
                                                             ))}
                                                   </select>
                                         </div> */}
-
-
                 <input
                     autoFocus
                     className="table-search"
@@ -109,7 +107,6 @@ export default function RoutingsTable({ routings, search = '', sortColumn = '', 
                                             ) : <ArrowDownNarrowWide />
                                             : null
                                         }
-
                                     </div>
                                 </th>
                             ))}
@@ -121,6 +118,8 @@ export default function RoutingsTable({ routings, search = '', sortColumn = '', 
                                 <tr key={index} className='dark:hover:bg-gray-700 hover:bg-gray-100'>
                                     <td className='py-3 px-2'>{routing.docTin}</td>
                                     <td>{routing.fromUser.fullName}</td>
+                                    <td>{routing.endorsedTo ? routing.endorsedTo.officeName : '--'}</td>
+                                    <td className='text-xs text-gray-400 truncate max-w-[200px]'>{routing.subject}</td>
                                     <td>{routing.status}</td>
                                     <td className='text-xs text-gray-400'>{routing.createdAt}</td>
                                     <td>

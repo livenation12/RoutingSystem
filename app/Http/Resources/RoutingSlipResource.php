@@ -7,6 +7,7 @@ use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\JsonResource;
 use Auth;
+
 class RoutingSlipResource extends JsonResource
 {
     /**

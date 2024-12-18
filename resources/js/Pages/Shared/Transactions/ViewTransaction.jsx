@@ -8,7 +8,7 @@ import { PenBox } from 'lucide-react';
 
 //This component should be wrapped by TransactionProvider
 export default function ViewTransaction() {
-  
+
   const [role] = usePage().props.auth.roles
   const [state] = useTransactions();
   const { transaction } = state;
@@ -33,11 +33,12 @@ export default function ViewTransaction() {
         }
       </div>
       <div className='flex max-h-min h-[300px] overflow-x-auto'>
-        {transaction.proposal.attachments.length > 0 ? transaction.proposal.attachments.map((attachment, index) => (
-          <a href={attachment.url} target='_blank' key={index}>
-            <img className='h-full max-w-[300px] object-cover' src={attachment.url} alt="Transaction attachment" />
-          </a>
-        )) :
+        {transaction.proposal.attachments.length > 0 ?
+          transaction.proposal.attachments.map((attachment, index) => (
+            <a href={attachment.url} target='_blank' key={index}>
+              <img className='h-full max-w-[300px] object-cover' src={attachment.url} alt="Transaction attachment" />
+            </a>
+          )) :
           <p className='text-red-500'>All attachments are deleted, Please update this transaction</p>
         }
       </div>
@@ -59,6 +60,8 @@ export default function ViewTransaction() {
           <dd>{transaction?.proposal.source}</dd>
           <dt>Description</dt>
           <dd>{transaction.proposal.description}</dd>
+          <dt>Accomplishment date</dt>
+          <dd>{transaction.accomplishmentDate}</dd>
         </dl>
       </div>
       <div>

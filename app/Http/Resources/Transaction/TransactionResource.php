@@ -3,6 +3,7 @@
 namespace App\Http\Resources\Transaction;
 
 use App\Http\Resources\ProposalResource;
+use App\Http\Resources\RemarksResource;
 use App\Http\Resources\RoutingSlipResource;
 use App\Http\Resources\UserResource;
 use Carbon\Carbon;
@@ -24,7 +25,7 @@ class TransactionResource extends JsonResource
             'id' => $this->id,
             'receivedBy' => new UserResource($this->receiver),
             'accomplishmentDate' => !empty($this->accomplishmentDate)
-                ? Carbon::parse($this->accomplishmentDate)->format('Y-m-d H:i:s')
+                ? Carbon::parse($this->accomplishmentDate)->format('M d y h:i A')
                 : 'Not yet accomplished',
             'status' => !empty($this->accomplishmentDate)
                 ? 'Completed'

@@ -29,8 +29,8 @@ class TransactionController extends Controller
     public function show(Transaction $transaction)
     {
         TransactionResource::withoutWrapping();
-        $transaction = $transaction->load(['routingSlips', 'proposal', 'routingSlips.fromUser']);
-        return inertia("Transaction/TransactionShow", [
+        $transaction = $transaction->load(['routingSlips', 'proposal', 'routingSlips.fromUser', 'routingSlips.remarks']);
+        return inertia("Transaction/TransactionFullDetails", [
             'transaction' => new TransactionResource($transaction),
         ]);
     }
@@ -40,6 +40,4 @@ class TransactionController extends Controller
         $transaction->delete();
         return redirect()->route('transaction.index');
     }
-
-
 }
