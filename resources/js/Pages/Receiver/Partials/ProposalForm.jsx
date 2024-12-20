@@ -50,7 +50,6 @@ export default function ProposalForm({ onSubmit, errors, data, setData, processi
                                                   message={errors.attachments}
                                                   type='file'
                                                   multiple
-                                                  accept="image/*"
                                                   name="attachments"
                                                   onChange={handleFileChange}
                                         />

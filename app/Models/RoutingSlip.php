@@ -8,6 +8,7 @@ use Illuminate\Database\Eloquent\Model;
 
 class RoutingSlip extends Model
 {
+    private static $fileDirectory = 'uploads/routings';
     protected $table = 'routing_slips';
     protected $fillable = [
         'docTin',
@@ -22,6 +23,8 @@ class RoutingSlip extends Model
         'actionRequested',
     ];
 
+
+    //<-- relationships
     public function fromUser()
     {
         return $this->belongsTo(User::class, 'fromUserId');
@@ -29,6 +32,11 @@ class RoutingSlip extends Model
     public function remarks()
     {
         return $this->hasMany(Remarks::class, 'routingSlipId');
+    }
+
+    public static function getFileDirectory()
+    {
+        return self::$fileDirectory;
     }
 
     public function endorsedTo()
@@ -40,6 +48,12 @@ class RoutingSlip extends Model
     {
         return $this->belongsTo(Transaction::class, 'transactionId');
     }
+
+    public function attachments()
+    {
+        return $this->hasMany(Attachment::class, 'routingSlipId');
+    }
+    //end of relationship -->
 
     public static function generateDocTin($officeAbbr)
     {

@@ -1,10 +1,9 @@
-import { FormSelect, FormTextArea } from '@/Components/FormEntities'
+import { FormInput, FormSelect, FormTextArea } from '@/Components/FormEntities'
 import PrimaryButton from '@/Components/PrimaryButton'
-import { usePage } from '@inertiajs/react'
 import React from 'react'
 
 export default function RevertRoutingForm({ onSubmit, errors, setData, data, isDirty, processing, offices }) {
-  
+
   const handleChange = (e) => {
     const { name, value } = e.target
     setData((prev) => ({
@@ -16,18 +15,31 @@ export default function RevertRoutingForm({ onSubmit, errors, setData, data, isD
   const structOptions = offices.map((office) => {
     return {
       label: office.officeName,
-      value: office.officeName
+      value: office.id
     }
   })
+
+  const handleFileChange = (event) => {
+    const selectedFiles = event.target.files;
+    // Update the form data with selected files
+    setData((prev) => ({ ...prev, attachments: selectedFiles }));
+  };
 
   return (
     <form onSubmit={onSubmit} className="max-w-xl space-y-6">
       <FormSelect
         labelValue='Office'
         onChange={handleChange}
-        name={'office'}
+        name={'officeId'}
         options={structOptions}
-        message={errors.office}
+        message={errors.officeId}
+      />
+      <FormInput
+        multiple
+        onChange={handleFileChange}
+        name='attachments'
+        type="file"
+        message={errors.attachments}
       />
       <FormTextArea
         value={data.remarks}

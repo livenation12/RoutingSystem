@@ -110,18 +110,23 @@ class TransactionController extends Controller
                     $fileName = str_replace(' ', '', "{$trackingId}[{$index}].{$fileExtension}");
 
                     // Check if the file already exists in the list of existing files
-                    if (in_array($fileName, $existingFiles)) {
-                        // If the file already exists, skip it
-                        continue;
+                    // If the file already exists, increment the index and regenerate the filename
+                    while (in_array($fileName, $existingFiles)) {
+                        $index++;  // Increment the index to make the file name unique
+                        $fileName = str_replace(' ', '', "{$trackingId}[{$index}].{$fileExtension}");  // Generate the new unique filename
                     }
 
                     // Store the new file (assuming you want to save it to storage)
                     $filePath = $attachment->storeAs(Proposal::getFileDirectory(), $fileName, 'public');
 
+                    // Save the attachment record in the database
                     $transaction->proposal->attachments()->create([
                         'fileName' => $fileName,
-                        'filePath' => $filePath, 
+                        'filePath' => $filePath,
                     ]);
+
+                    // Optionally, add the fileName to the existing files array to keep track of duplicates
+                    $existingFiles[] = $fileName;
                 }
                 DB::commit();
             }

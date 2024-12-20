@@ -3,12 +3,14 @@ import OfficeHeadLayout from '@/Layouts/OfficeHeadLayout'
 import { Head, Link, useForm } from '@inertiajs/react'
 import React from 'react'
 import RevertRoutingForm from './Partials/RevertRoutingForm'
+import { useToast } from '@/Components/Toast'
 
 export default function RevertRouting({ routingSlip, offices }) {
+    const toast = useToast();
     const { data, setData, processing, errors, post, isDirty } = useForm({
         remarks: '',
         additionalRemarks: '',
-        office: ''
+        officeId: ''
     })
 
     const handleSubmit = (e) => {
