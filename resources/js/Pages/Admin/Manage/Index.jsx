@@ -1,9 +1,9 @@
 import React from 'react'
-import OfficeList from './Office/OfficeList'
-import { Head, Link } from '@inertiajs/react'
+import OfficeList from './Partials/OfficeList'
+import { Head } from '@inertiajs/react'
 import AdminLayout from '@/Layouts/AdminLayout'
-import UserList from './User/Partials/UserList'
-export default function Index({ offices, users }) {
+import UserList from './Partials/UserList'
+export default function Index({ offices, users, roles }) {
     return (
         <AdminLayout>
             <Head title="Manage" />
@@ -12,9 +12,9 @@ export default function Index({ offices, users }) {
                     <OfficeList offices={offices} />
                 </div>
                 <div className='section-wrapper'>
-                    <UserList users={users} />
+                    <UserList roles={roles} users={users} />
                 </div>
             </div>
-        </AdminLayout>
+        </AdminLayout> 
     )
 }

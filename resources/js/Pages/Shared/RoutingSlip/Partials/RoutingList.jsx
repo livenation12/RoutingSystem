@@ -9,7 +9,9 @@ export default function RoutingList({ routingSlips, transactionId }) {
             <p className="text">No routing slips yet</p>
         )
     }
-    const [role] = usePage().props.auth.roles
+    const roles = usePage().props.auth.roles
+    const [role] = roles
+
     const processRouteBaseOnRole = role === 'deptHead' ? 'department-head.routing-slip.form' : 'office-head.routing-slip.form'
     return (
         <>
@@ -25,7 +27,7 @@ export default function RoutingList({ routingSlips, transactionId }) {
                                     {routingSlip.fromUser?.fullName}
                                 </h2>
                                 <div className="inline-flex gap-2">
-                                    {routingSlip.toProcess && role === 'officeHead' ?
+                                    {routingSlip.toProcess && roles.includes('officeHead') ?
                                         <Link href={route('office-head.routing-slip.revert.form', routingSlip.id)}>
                                             <PrimaryButton>
                                                 <RefreshCw className="me-1.5" /> Revert

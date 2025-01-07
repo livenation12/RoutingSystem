@@ -15,7 +15,7 @@ export default function RevertRouting({ routingSlip, offices }) {
 
     const handleSubmit = (e) => {
         e.preventDefault()
-        post(route('office-head.routing-slip.revert', routingSlip.id), {
+        post(route('office-head.routing-slip.revert', { routingSlip: routingSlip.id }), {
             onSuccess: () => {
                 toast('Reverted!', 'Routing slip reverted successfully');
             },

@@ -28,9 +28,11 @@ class RoutingSlipMinResource extends JsonResource
             'fromUser' => new UserMinResource($this->whenLoaded('fromUser')),
             'endorsedTo' => new OfficeResource($this->whenLoaded('endorsedTo')),
             'urgency' => $this->urgency,
-            'subject' => $this->subject,
+            'status' => $this->status,
+            'subject' => $this->subject ?? '--',
             'toProcess' => Auth::user()->id === $this->fromUserId && !$this->endorsedToOfficeId && !$this->transaction->accomplishmentDate,
             'createdAt' => Carbon::parse($this->created_at)->diffForHumans(),
+            'createdDate' => $this->created_at?->format('m-d-y H:i A')
         ];
     }
 }

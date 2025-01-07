@@ -1,18 +1,24 @@
+import Dropdown from '@/Components/Dropdown';
 import Pagination from '@/Components/Pagination';
-import { Link, router } from '@inertiajs/react';
-import { ArrowDownNarrowWide, ArrowUpNarrowWide, Ellipsis } from 'lucide-react';
+import SecondaryButton from '@/Components/SecondaryButton';
+import { useToast } from '@/Components/Toast';
+import { Link, router, usePage } from '@inertiajs/react';
+import { ArrowDownNarrowWide, ArrowUpNarrowWide, ChevronDown, Ellipsis } from 'lucide-react';
 import { useEffect, useState } from 'react';
 
+
 export default function RoutingsTable({ routings, search = '', sortColumn = '', sortDirection = '' }) {
+    const roles = usePage().props.auth.roles
     const [currentSearch, setCurrentSearch] = useState(search);
     const [currentSortColumn, setCurrentSortColumn] = useState(sortColumn);
     const [currentSortDirection, setCurrentSortDirection] = useState(sortDirection);
+    const toast = useToast();
     const tableHeaders = [
         { label: 'Doc Tin', labelKey: 'docTin', sortable: true },
         { label: 'From', labelKey: 'fromUserId', sortable: true },
-        { label: 'To', labelKey: 'endorsedTo', sortable: true },
+        { label: 'To', labelKey: 'endorsedToOfficeId', sortable: true },
         { label: 'Subject' },
-        { label: 'Status', sortable: true },
+        { label: 'Status', labelKey: 'status', sortable: true },
         { label: '', sortable: false },
         { label: '', sortable: false },
     ];
@@ -48,33 +54,21 @@ export default function RoutingsTable({ routings, search = '', sortColumn = '', 
             page: 1,
         });
     };
+    const handleStatusChange = (status, id) => {
+
+        router.patch(route('receiver.routing-slip.mark-status', id), {
+            status
+        }, {
+            onSuccess: () => {
+                toast('Updated', 'Status updated to ' + status + ' successfully');
+            },
+            preserveScroll: true
+        });
+    }
 
     return (
         <>
             <div className='flex justify-end mb-2'>
-                {/* <div className='inline-flex items-center gap-2 flex-row-reverse'>
-                                                  <label htmlFor="paginate" className='text-xs'>per page</label>
-                                                  <select
-                                                            id="paginate"
-                                                            className="h-7 text-xs bg-transparent text-gray-200 rounded text-center"
-                                                            value={paginate}
-                                                            onChange={(e) => {
-                                                                      router.get(route('routing.index'), {
-                                                                                paginate: e.target.value,
-                                                                      });
-                                                            }}
-                                                  >
-                                                            {paginationOptions.map((option) => (
-                                                                      <option
-                                                                                className='bg-transparent'
-                                                                                key={option}
-                                                                                value={option}
-                                                                      >
-                                                                                {option}
-                                                                      </option>
-                                                            ))}
-                                                  </select>
-                                        </div> */}
                 <input
                     autoFocus
                     className="table-search"
@@ -86,7 +80,7 @@ export default function RoutingsTable({ routings, search = '', sortColumn = '', 
 
             </div>
 
-            <div className='rounded-t-lg border max-w-full overflow-auto'>
+            <div className='rounded-t-lg border min-h-[60vh] max-w-full overflow-auto'>
                 <table className='min-w-max w-full'>
                     <thead className='uppercase text-black dark:text-white text-sm border-b'>
                         <tr>
@@ -120,13 +114,33 @@ export default function RoutingsTable({ routings, search = '', sortColumn = '', 
                                     <td>{routing.fromUser.fullName}</td>
                                     <td>{routing.endorsedTo ? routing.endorsedTo.officeName : '--'}</td>
                                     <td className='text-xs text-gray-400 truncate max-w-[200px]'>{routing.subject}</td>
-                                    <td>{routing.status}</td>
-                                    <td className='text-xs text-gray-400'>{routing.createdAt}</td>
+                                    <td className='rounded text-xs'>{routing.status}</td>
+                                    <td className='text-xs text-gray-400'>{routing.createdDate}</td>
                                     <td>
-                                        <div className='flex'>
+                                        <div className='flex px-2 gap-1.5'>
+
                                             <Link href={route('transaction.show', routing.transactionId)}>
-                                                <Ellipsis />
+                                                <SecondaryButton>
+                                                    <Ellipsis />
+                                                </SecondaryButton>
                                             </Link>
+                                            {
+                                                roles.includes('receiver') &&
+                                                    (routing.status !== 'Completed' && routing.status !== 'Incomplete') ? (
+                                                    <Dropdown>
+                                                        <Dropdown.Trigger>
+                                                            <SecondaryButton>
+                                                                <ChevronDown />
+                                                            </SecondaryButton>
+                                                        </Dropdown.Trigger>
+                                                        <Dropdown.Content>
+                                                            <Dropdown.Title>Mark as</Dropdown.Title>
+                                                            <Dropdown.Item onClick={() => handleStatusChange('Completed', routing.id)}>Completed</Dropdown.Item>
+                                                            <Dropdown.Item onClick={() => handleStatusChange('Incomplete', routing.id)}>Incomplete</Dropdown.Item>
+                                                        </Dropdown.Content>
+                                                    </Dropdown>
+                                                ) : null
+                                            }
                                         </div>
                                     </td>
                                 </tr>

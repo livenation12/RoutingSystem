@@ -16,6 +16,7 @@ class Office extends Model
         'abbr'
     ];
 
+
     public function officeHead()
     {
         return $this->belongsTo(User::class, 'officeHeadId');
@@ -41,3 +42,5 @@ class Office extends Model
         return self::where('id', '!=', Auth::user()->officeId)->get();
     }
 }
+
+

@@ -91,4 +91,5 @@ class IncomingController extends Controller
     {
         return inertia("Receiver/IncomingCreate");
     }
+    
 }

@@ -21,3 +21,5 @@ export const actionRequestedTypes = ['Immediate Action',
 export const sourceTypes = ['External', 'Internal']
 
 export const paginationOptions = [1, 2, 5, 10, 25, 50]
+
+export const statusActions = ['Pending', 'Completed', 'Incomplete', 'Endorse', 'Reverted']

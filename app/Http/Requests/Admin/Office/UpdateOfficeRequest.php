@@ -2,6 +2,7 @@
 
 namespace App\Http\Requests\Admin\Office;
 
+use Illuminate\Validation\Rule;
 use Illuminate\Foundation\Http\FormRequest;
 
 class UpdateOfficeRequest extends FormRequest
@@ -21,11 +22,13 @@ class UpdateOfficeRequest extends FormRequest
      */
     public function rules(): array
     {
+        $office = $this->route('office'); // Assuming you're passing the office as a route parameter
+
         return [
             'officeName' => ['required'],
             'officeHeadId' => ['required', 'exists:users,id', 'different:officialAlternateId'],
             'officialAlternateId' => ['nullable', 'exists:users,id', 'different:officialHeadId'],
-            'abbr' => ['required', 'unique:offices,abbr']
+            'abbr' => ['required', Rule::unique('offices', 'abbr')->ignore($office->id)],
         ];
     }
 

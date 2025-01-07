@@ -10,7 +10,7 @@ class Attachment extends Model
         'fileName',
         'filePath',
         'proposalId',
-        'routingSlipId'
+        'routingId'
     ];
     public $timestamps = false;
 
@@ -21,6 +21,6 @@ class Attachment extends Model
 
     public function routingSlip()
     {
-        return $this->belongsTo(RoutingSlip::class, 'routingSlipId');
+        return $this->belongsTo(RoutingSlip::class, 'routingId');
     }
 }

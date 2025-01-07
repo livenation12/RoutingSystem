@@ -36,7 +36,7 @@ export const FormSelect = ({
           name,
           labelValue = ucFirst(name),
           message,
-          options,
+          options = [],
           required = false,
           hasOthersOption = false,
           value,

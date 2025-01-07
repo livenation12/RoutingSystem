@@ -6,7 +6,7 @@ use Carbon\Carbon;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Database\Eloquent\Model;
 
-class RoutingSlip extends Model
+class   RoutingSlip extends Model
 {
     private static $fileDirectory = 'uploads/routings';
     protected $table = 'routing_slips';
@@ -21,8 +21,8 @@ class RoutingSlip extends Model
         'status',
         'additionalRemarks',
         'actionRequested',
+        'endorsedByOfficeId'
     ];
-
 
     //<-- relationships
     public function fromUser()
@@ -44,6 +44,11 @@ class RoutingSlip extends Model
         return $this->belongsTo(Office::class, 'endorsedToOfficeId');
     }
 
+    public function endorsedBy()
+    {
+        return $this->belongsTo(Office::class, 'endorsedByOfficeId');
+    }
+
     public function transaction()
     {
         return $this->belongsTo(Transaction::class, 'transactionId');
@@ -51,8 +56,15 @@ class RoutingSlip extends Model
 
     public function attachments()
     {
-        return $this->hasMany(Attachment::class, 'routingSlipId');
+        return $this->hasMany(Attachment::class, 'routingId');
     }
+
+    public function routingLogs()
+    {
+        return $this->hasMany(RoutingLog::class, 'routingSlipId');
+    }
+
+
     //end of relationship -->
 
     public static function generateDocTin($officeAbbr)

@@ -1,4 +1,4 @@
-import { FormInput, FormSelect, FormTextArea } from '@/Components/FormEntities'
+import { FormInput, FormTextArea } from '@/Components/FormEntities'
 import PrimaryButton from '@/Components/PrimaryButton'
 import React from 'react'
 
@@ -27,13 +27,6 @@ export default function RevertRoutingForm({ onSubmit, errors, setData, data, isD
 
   return (
     <form onSubmit={onSubmit} className="max-w-xl space-y-6">
-      <FormSelect
-        labelValue='Office'
-        onChange={handleChange}
-        name={'officeId'}
-        options={structOptions}
-        message={errors.officeId}
-      />
       <FormInput
         multiple
         onChange={handleFileChange}

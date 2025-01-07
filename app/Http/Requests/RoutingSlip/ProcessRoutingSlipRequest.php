@@ -22,7 +22,7 @@ class ProcessRoutingSlipRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'endorsedToOfficeId' => ['required', 'string', 'exists:offices,id'],
+            'endorsedToOfficeId' => ['nullable', 'string'],
             'additionalRemarks' => ['nullable', 'string'],
             'remarks' => ['required', 'string'],
         ];

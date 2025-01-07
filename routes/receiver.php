@@ -4,6 +4,7 @@ use App\Http\Controllers\Receiver\DashboardController;
 use App\Http\Controllers\Receiver\IncomingController;
 use App\Http\Controllers\Receiver\InitialRoutingSlipController;
 use App\Http\Controllers\Receiver\TransactionController;
+use App\Http\Controllers\Receiver\UpdateProgressRoutingController;
 use Illuminate\Support\Facades\Route;
 
 Route::middleware(['auth', 'role:receiver'])
@@ -24,6 +25,7 @@ Route::middleware(['auth', 'role:receiver'])
                     //routing-slip
                     Route::get('/routing-slip/{transaction}/create', [InitialRoutingSlipController::class, 'create'])->name('initial-routing.create');
                     Route::post('/routing-slip/{transaction}/initialize', [InitialRoutingSlipController::class, 'initialize'])->name('initial-routing.initialize');
+                    Route::patch('/routing-slip/{routingSlip}/mark-status', UpdateProgressRoutingController::class)->name('routing-slip.mark-status');
 
                     //attachments
                     Route::delete('/attachment/{transaction}', [TransactionController::class, 'removeAttachments'])->name('attachment.remove');

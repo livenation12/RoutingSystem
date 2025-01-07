@@ -43,6 +43,7 @@ export default function TransactionRoutings({ routingSlips }) {
                                                                                                     </div>
                                                                                           </>
                                                                                 }
+
                                                                                 <div className='col-span-full'>
                                                                                           <p className='dark:text-gray-400 font-semibold'>Remarks</p>
                                                                                           {routing.remarks.length > 0 ? routing.remarks.map((remark, index) => (
@@ -58,6 +59,22 @@ export default function TransactionRoutings({ routingSlips }) {
                                                                                           <dt>Additional remarks</dt>
                                                                                           <dd>{routing.additionalRemarks}</dd>
                                                                                 </div>
+                                                                                {routing.attachments.length > 0 &&
+                                                                                          <div>
+                                                                                                    <h5>Attachments</h5>
+                                                                                                    <div className='flex max-w-full overflow-auto gap-2'>
+                                                                                                              {
+                                                                                                                        routing.attachments && routing.attachments.map((attachment, index) => (
+                                                                                                                                  <a target='_blank' href={attachment.url} key={index} >
+                                                                                                                                            <img src={attachment.url} alt={index} />
+
+                                                                                                                                  </a>
+                                                                                                                        ))
+                                                                                                              }
+                                                                                                    </div>
+                                                                                          </div>
+                                                                                }
+
 
                                                                       </dl>
                                                             </div>

@@ -18,6 +18,8 @@ const Dropdown = ({ children }) => {
     );
 };
 
+
+
 const Trigger = ({ children }) => {
     const { open, setOpen, toggleOpen } = useContext(DropDownContext);
 
@@ -85,6 +87,33 @@ const Content = ({
         </>
     );
 };
+const Title = ({ children, className, ...props }) => {
+    return (
+        <div
+            {...props}
+            className={'block w-full px-4 py-2 text-start font-semibold text-sm border-b border-gray-500 leading-5 text-gray-700 transition duration-150 ease-in-out  focus:bg-gray-100 focus:outline-none dark:text-gray-300 dark:focus:bg-gray-800 ' +
+                className
+
+            }
+        >
+            {children}
+        </div>
+    )
+}
+
+const Item = ({ className = '', children, ...props }) => {
+    return (
+        <div
+            {...props}
+            className={
+                'block w-full px-4 py-2 text-start text-sm leading-5 text-gray-700 transition duration-150 ease-in-out hover:bg-gray-100 focus:bg-gray-100 focus:outline-none dark:text-gray-300 dark:hover:bg-gray-800 dark:focus:bg-gray-800 ' +
+                className
+            }
+        >
+            {children}
+        </div>
+    );
+};
 
 const DropdownLink = ({ className = '', children, ...props }) => {
     return (
@@ -99,7 +128,8 @@ const DropdownLink = ({ className = '', children, ...props }) => {
         </Link>
     );
 };
-
+Dropdown.Item = Item;
+Dropdown.Title = Title;
 Dropdown.Trigger = Trigger;
 Dropdown.Content = Content;
 Dropdown.Link = DropdownLink;

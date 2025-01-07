@@ -23,7 +23,7 @@ export default function TransactionProposal({ proposal }) {
                                                                       target='_blank'
                                                                       key={index}>
                                                                       <img
-                                                                                className='h-full max-w-[300px] object-cover'
+                                                                                className='h-[250px] max-w-[300px] object-cover'
                                                                                 src={attachment.url}
                                                                                 alt={`Attachment[${index}]`} />
                                                             </a>

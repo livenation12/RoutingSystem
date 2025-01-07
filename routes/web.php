@@ -1,14 +1,6 @@
 <?php
 
-use App\Http\Controllers\AdminController;
-use App\Http\Controllers\ManageController;
-use App\Http\Controllers\OfficeController;
 use App\Http\Controllers\ProfileController;
-use App\Http\Controllers\ProposalController;
-use App\Http\Controllers\Receiver\DashboardController;
-use App\Http\Controllers\Receiver\IncomingController;
-use App\Http\Controllers\Receiver\InitialRoutingController;
-use App\Http\Controllers\ReceiverController;
 use App\Http\Controllers\RoutingController;
 use App\Http\Controllers\TransactionController;
 use Illuminate\Support\Facades\Route;
@@ -33,7 +25,6 @@ Route::middleware(['auth'])->group(function () {
     Route::get('/routing/{routingSlip}/show', [RoutingController::class, 'show'])->name('routing.show');
     Route::post('/routing', [RoutingController::class, 'store'])->name('routing.store');
     Route::get('/routing/{transaction}/create', [RoutingController::class, 'create'])->name('routing.create');
-
 });
 
 require __DIR__ . '/receiver.php';

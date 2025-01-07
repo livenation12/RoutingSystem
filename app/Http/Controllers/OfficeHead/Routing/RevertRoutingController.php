@@ -7,6 +7,7 @@ use App\Http\Requests\RevertRoutingRequest;
 use App\Models\Attachment;
 use App\Models\Office;
 use App\Models\Remarks;
+use App\Models\RoutingLog;
 use App\Models\RoutingSlip;
 use DB;
 
@@ -28,45 +29,56 @@ class RevertRoutingController extends Controller
         DB::beginTransaction();
         try {
             if ($request->hasFile('attachments')) {
-                $existingFiles = Attachment::where('proposalId', $routingSlip->transaction->proposal->id)
+                $existingFiles = Attachment::where('routingId', $routingSlip->id)
                     ->pluck('fileName')
                     ->toArray();
-
-                foreach ($request->file(key: 'attachments') as $key => $attachment) {
+                foreach ($request->file('attachments') as $key => $attachment) {
 
                     $fileExtension = $attachment->getClientOriginalExtension();
 
                     $fileName = str_replace(' ', '', "{$routingSlip->docTin}[$key].$fileExtension");
 
                     while (in_array($fileName, $existingFiles)) {
-                        $index++;  // Increment the index to make the file name unique
-                        $fileName = str_replace(' ', '', "{$routingSlip->docTin}[{$index}].{$fileExtension}");  // Generate the new unique filename
+                        $key++;  // Increment the key to make the file name unique
+                        $fileName = str_replace(' ', '', "{$routingSlip->docTin}[{$key}].{$fileExtension}");  // Generate the new unique filename
                     }
 
                     $filePath = $attachment->storeAs($routingSlip::getFileDirectory(), $fileName, 'public');
 
-                    $routingSlip->attachments()->create([
+                    $attachment =  Attachment::create([
                         'fileName' => $fileName,
-                        'filePath' => $filePath
+                        'filePath' => $filePath,
+                        'routingId' => $routingSlip->id
                     ]);
+                    \Log::info('Attachment Created: ', $attachment->toArray());
                 }
             }
+
             if (!empty($validated['additionalRemarks'])) {
                 $routingSlip->additionalRemarks = $validated['additionalRemarks'];
                 $routingSlip->save();
             }
+
             Remarks::create([
                 "message" => $validated['remarks'],
                 "routingSlipId" => $routingSlip->id,
-                'office' => $validated['office']
+                'office' => $routingSlip->endorsedBy->officeName
             ]);
+
             if ($routingSlip->transaction) {
                 $routingSlip->transaction->accomplishmentDate = now();
                 $routingSlip->transaction->save();
             }
-            $routingSlip->endorsedToOfficeId = $validated['officeId'];
-            $routingSlip->save();
+            $routingSlip->update([
+                "endorsedToOfficeId" => $routingSlip->endorsedByOfficeId,
+                "status" => 'Reverted'
+            ]);
+            RoutingLog::create([
+                'routingSlipId' => $routingSlip->id,
+                'status' => 'Reverted',
+            ]);
             DB::commit();
+            return to_route('office-head.dashboard', ['routingSlip' => $routingSlip]);
         } catch (\ErrorException $e) {
             DB::rollBack();
             \Log::error("Error occured while reverting routing slip: " . $e->getMessage());

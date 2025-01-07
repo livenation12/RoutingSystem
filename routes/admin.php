@@ -18,4 +18,5 @@ Route::middleware(['auth', 'role:admin'])
                     Route::get('/manage', ManageController::class)->name('manage');
                     Route::get('/user/create', [UserController::class, 'create'])->name('user.create');
                     Route::post('/user', [UserController::class, 'store'])->name('user.store');
+                    Route::post('/user/{user}/assign', [UserController::class, 'assignRole'])->name('user.assign');
           });

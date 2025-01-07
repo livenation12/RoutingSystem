@@ -6,10 +6,12 @@ use App\Http\Controllers\Controller;
 use App\Http\Requests\RoutingSlip\ProcessRoutingSlipRequest;
 use App\Models\Office;
 use App\Models\Remarks;
+use App\Models\RoutingLog;
 use App\Models\RoutingSlip;
 use App\Models\Transaction;
-use Auth;
-use Illuminate\Http\Request;
+use App\Models\User;
+use DB;
+
 
 class ProcessRoutingSlip extends Controller
 {
@@ -25,7 +27,6 @@ class ProcessRoutingSlip extends Controller
         ]);
     }
 
-
     /**
      * Process the routing slip with the given request.
      *
@@ -36,37 +37,51 @@ class ProcessRoutingSlip extends Controller
     public function process(ProcessRoutingSlipRequest $request, RoutingSlip $routingSlip)
     {
         $validated = $request->validated();
-        // Update the routing slip with validated data
-        $routingSlip->update($validated);
-        // Create a remark associated with the routing slip
-        Remarks::create([
-            'routingSlipId' => $routingSlip->id,
-            'message' => $validated['remarks'],
-            'office' => $routingSlip->endorsedTo->officeName,
-        ]);
-
-        // Check if 'endorsedToOfficeId' is not provided
-        if (empty($validated['endorsedToOfficeId'])) {
-
-            $transaction = Transaction::find($routingSlip->transactionId);
-
-            // Check if transaction exists before accessing its properties
-            if ($transaction) {
+        DB::beginTransaction();
+        try {
+            if (empty($validated['endorsedToOfficeId'])) {
+                $transaction = Transaction::find($routingSlip->transactionId);
                 $transaction->accomplishmentDate = now();
                 $transaction->save();
+                $routingSlip->status = 'Accomplished';
+                $routingSlip->save();
+                RoutingLog::create([
+                    'routingSlipId' => $routingSlip->id,
+                    'status' => 'Accomplished',
+                ]);
             } else {
-                // Handle the case where the transaction is not found (optional)
-                return to_route('department-head.routing-slip.form', ['routingSlip' => $routingSlip])->withErrors(['message' => 'Transaction not found.']);
+                $endorsedToHeadId = Office::find($validated['endorsedToOfficeId'])->officeHead->id;
+                $endorsedRoutingSlip = RoutingSlip::create([
+                    'endorsedByOfficeId' => $routingSlip->fromUser->office->id,
+                    'transactionId' => $routingSlip->transactionId,
+                    'fromUserId' => $endorsedToHeadId,
+                    'status' => 'Pending',
+                ]);
+                if ($endorsedRoutingSlip) {
+                    $routingSlip->status = 'Endorsed';
+                    $routingSlip->endorsedToOfficeId = $validated['endorsedToOfficeId'];
+                    $routingSlip->save();
+                    if ($routingSlip) {
+                        Remarks::create([
+                            'routingSlipId' => $routingSlip->id,
+                            'message' => $validated['remarks'],
+                            'office' => $routingSlip->endorsedTo->officeName,
+                        ]);
+                    }
+                    RoutingLog::create([
+                        'routingSlipId' => $routingSlip->id,
+                        'status' => 'Endorsed',
+                    ]);
+                } else {
+                    \Log::error('Error creating routing slip');
+                }
             }
-        } else {
-            //initialize routing slip for the next routing
-            RoutingSlip::create([
-                'transactionId' => $routingSlip->transactionId,
-                'fromUserId' => $routingSlip->endorsedTo->officeHead->id,
-            ]);
+            DB::commit();
+            // Return a success response (optional)
+            return to_route('department-head.dashboard');
+        } catch (\Exception $e) {
+            \Log::error('Error endorsing/accomplishing routing slip: ' . $e->getMessage());
+            DB::rollBack();
         }
-
-        // Return a success response (optional)
-        return to_route('department-head.dashboard');
     }
 }

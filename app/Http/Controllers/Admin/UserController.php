@@ -17,9 +17,12 @@ class UserController extends Controller
             'firstName' => 'required|string|max:255',
             'lastName' => 'required|string|max:255',
             'email' => 'required|string|lowercase|email|max:255|unique:' . User::class,
-            'password' => ['required', 'confirmed', Password::defaults(),
-            'role' => ['required', 'exists:roles,name']
-        ],
+            'password' => [
+                'required',
+                'confirmed',
+                Password::defaults(),
+                'role' => ['required', 'exists:roles,name']
+            ],
         ]);
 
         User::create([
@@ -38,5 +41,9 @@ class UserController extends Controller
         return inertia("Admin/Manage/User/UserCreate", [
             'roles' => $roles
         ]);
+    }
+
+    public function assignRole(Request $request, User $user) {
+        $user->assignRole($request->role);
     }
 }

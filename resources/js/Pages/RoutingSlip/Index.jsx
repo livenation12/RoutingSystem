@@ -5,8 +5,6 @@ import React from 'react'
 import RoutingsTable from './Partials/RoutingsTable';
 
 export default function Index({ routings, search, sortColumn, sortDirection }) {
-    console.log(routings);
-
     return (
         <Layout>
             <Head title='Routings' />

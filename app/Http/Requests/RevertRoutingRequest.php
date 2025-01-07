@@ -22,7 +22,6 @@ class RevertRoutingRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'officeId' => ['required', 'string', 'exists:offices,id'],
             'remarks' => ['required', 'string'],
             'additionalRemarks' => ['nullable', 'string'],
             'attachments' => ['nullable']

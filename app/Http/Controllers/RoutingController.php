@@ -51,7 +51,14 @@ class RoutingController extends Controller
     public function show(RoutingSlip $routingSlip)
     {
 
-        $routingSlip->load(['transaction', 'transaction.proposal', 'transaction.proposal.attachments', 'fromUser']);
+        $routingSlip->load([
+            'transaction',
+            'transaction.proposal',
+            'transaction.proposal.attachments',
+            'fromUser',
+            'endorsedBy',
+            'routingLogs'
+        ]);
         return inertia("RoutingSlip/Show", [
             'routingSlip' => new RoutingSlipResource($routingSlip)
         ]);
@@ -85,6 +92,4 @@ class RoutingController extends Controller
         }
         return redirect()->route('routing-slip.index');
     }
-
-    public function full() {}
 }
