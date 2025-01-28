@@ -18,10 +18,13 @@ export default function DepartmentHeadLayout({ header, children }) {
                     <div className="flex h-16 justify-between">
                         <div className="flex">
                             <div className="flex shrink-0 items-center">
-                                <Link href={route('department-head.dashboard')} className='text-center  text-gray-800 dark:text-gray-200'>
-                                    <ApplicationLogo className="block h-9 w-auto fill-current" />
-                                    <span>Department Head</span>
-                                </Link>
+                                <div className='inline-flex items-center gap-1.5'>
+                                    <img src="/images/dasmo_img.jpg" alt="Application Logo" className='size-14 rounded-full' />
+                                    <Link href={route('department-head.dashboard')} className='text-center  text-gray-800 dark:text-gray-200'>
+                                        <ApplicationLogo className="block h-9 w-auto fill-current" />
+                                        <span>Department Head</span>
+                                    </Link>
+                                </div>
                             </div>
                             <div className="hidden space-x-8 sm:-my-px sm:ms-10 sm:flex">
                                 <NavLink

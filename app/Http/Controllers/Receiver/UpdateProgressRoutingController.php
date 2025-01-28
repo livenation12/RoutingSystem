@@ -5,6 +5,8 @@ namespace App\Http\Controllers\Receiver;
 use App\Http\Controllers\Controller;
 use App\Models\RoutingLog;
 use App\Models\RoutingSlip;
+use Auth;
+use Carbon\Carbon;
 use DB;
 use Illuminate\Http\Request;
 
@@ -28,6 +30,12 @@ class UpdateProgressRoutingController extends Controller
                 $routing->status = $validatedRequest['status'];
                 $routing->save();
             });
+
+            if ($validatedRequest['status'] == 'Completed') {
+                $routingSlip->completionDate = Carbon::now();
+                $routingSlip->completedBy = Auth::user()->id;
+                $routingSlip->save();
+            }
 
             // Step 3: Create RoutingLog entries for each updated RoutingSlip
             foreach ($routings as $routing) {

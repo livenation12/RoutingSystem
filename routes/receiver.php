@@ -21,7 +21,8 @@ Route::middleware(['auth', 'role:receiver'])
                     //transaction
                     Route::get('/transaction/{transaction}/edit', [TransactionController::class, 'edit'])->name('transaction.edit');
                     Route::patch('/transaction/{transaction}', [TransactionController::class, 'update'])->name('transaction.update');
-
+                    Route::patch('/transaction/{transaction}/mark-status', [TransactionController::class, 'markRoutingStatus'])->name('transaction.mark-status');
+                    
                     //routing-slip
                     Route::get('/routing-slip/{transaction}/create', [InitialRoutingSlipController::class, 'create'])->name('initial-routing.create');
                     Route::post('/routing-slip/{transaction}/initialize', [InitialRoutingSlipController::class, 'initialize'])->name('initial-routing.initialize');

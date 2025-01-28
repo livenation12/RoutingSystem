@@ -36,22 +36,21 @@ class AuthenticatedSessionController extends Controller
         // Regenerate the session to prevent session fixation
         $request->session()->regenerate();
 
-        // Get the authenticated user
-        $user = Auth::user();
-
         // Check the role and redirect accordingly
-        if ($user->hasRole('admin')) {
-            return redirect()->route('admin.dashboard');
-        } elseif ($user->hasRole('receiver')) {
-            return redirect()->route('receiver.dashboard');
-        } elseif ($user->hasRole('deptHead')) {
-            return redirect()->route('department-head.dashboard');
-        } elseif ($user->hasRole('officeHead')) {
-            return redirect()->route('office-head.dashboard');
+        if (Auth::check()) {
+            $user = Auth::user();
+            if ($user->hasRole('admin')) {
+                return redirect()->route('admin.dashboard');
+            } elseif ($user->hasRole('receiver')) {
+                return redirect()->route('receiver.dashboard');
+            } elseif ($user->hasRole('deptHead')) {
+                return redirect()->route('department-head.dashboard');
+            } elseif ($user->hasRole('officeHead')) {
+                return redirect()->route('office-head.dashboard');
+            }
+        } else {
+            return redirect()->route('login');
         }
-
-        // Default redirection if no specific role is matched
-        return redirect()->route('dashboard');
     }
 
     /**

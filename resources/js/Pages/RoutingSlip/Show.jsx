@@ -1,13 +1,9 @@
 import SecondaryButton from '@/Components/SecondaryButton'
 import Layout from '@/Layouts/Layout'
-import { Head, Link, usePage } from '@inertiajs/react'
+import { Head, Link } from '@inertiajs/react'
 import React from 'react'
 
 export default function Show({ routingSlip }) {
-
-    const [role] = usePage().props.auth.roles
-    console.log(routingSlip);
-
     return (
         <Layout
             header={
@@ -28,8 +24,8 @@ export default function Show({ routingSlip }) {
                 <div className="section-wrapper">
                     <div>
                         <h3 className='section-header'>Details</h3>
-                        <div className='grid grid-cols-3'>
-                            <div className='col-span-2 max-w-2xl border-r p-3'>
+                        <div className='grid lg:grid-cols-3'>
+                            <div className='col-span-2 max-w-2xl lg:border-r p-3'>
                                 <dl>
                                     <dt>Doc Tin</dt>
                                     <dd>{routingSlip.docTin}</dd>
@@ -62,9 +58,23 @@ export default function Show({ routingSlip }) {
                                             <dd>{routingSlip.action}</dd>
                                         </>
                                     }
+                                    {
+                                        routingSlip.endorsedBy &&
+                                        <>
+                                            <dt>Endorsed By</dt>
+                                            <dd>{routingSlip.endorsedBy.officeName}</dd>
+                                        </>
+                                    }
                                     <dt>Status</dt>
                                     <dd>{routingSlip.status}</dd>
                                     <div>
+                                        {
+                                            routingSlip.endorsedTo &&
+                                            <>
+                                                <dt>Reverted/Endorsed to</dt>
+                                                <dd>{routingSlip.endorsedTo.officeName}</dd>
+                                            </>
+                                        }
 
                                     </div>
                                     {routingSlip.remarks.length > 0 &&
@@ -95,13 +105,15 @@ export default function Show({ routingSlip }) {
                                 </dl>
                                 <div>
                                     <p className='text-sm dark:text-gray-400 font-semibold'>Attachments</p>
-                                    <div className='flex max-w-full overflow-auto gap-1.5 h-[300px]'>
-                                        {routingSlip.attachments.length > 0 &&
+                                    <div className='flex max-w-full overflow-auto gap-1.5 max-h-[300px]'>
+                                        {routingSlip.attachments.length > 0 ?
                                             routingSlip.attachments.map((attachment, index) => (
                                                 <a href={attachment.url} target='_blank' key={index}>
                                                     <img className='object-cover' src={attachment.url} alt={`attachment[${index}]`} />
                                                 </a>
                                             ))
+                                            :
+                                            <>No attachement(s)</>
                                         }
                                     </div>
 

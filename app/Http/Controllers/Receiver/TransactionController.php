@@ -9,9 +9,14 @@ use App\Http\Requests\Receiver\UpdateTransactionRequest;
 use App\Http\Resources\Transaction\TransactionResource;
 use App\Models\Attachment;
 use App\Models\Proposal;
+use App\Models\RoutingLog;
+use App\Models\RoutingSlip;
 use App\Models\Transaction;
+use Auth;
+use Carbon\Carbon;
 use DB;
 use Illuminate\Support\Facades\Storage;
+use Illuminate\Http\Request;
 
 class TransactionController extends Controller
 {
@@ -139,5 +144,41 @@ class TransactionController extends Controller
         }
 
         return redirect()->route('receiver.transaction.edit', ['transaction' => $transaction->id]);
+    }
+
+
+    public function markRoutingStatus(Request $request, Transaction $transaction)
+    {
+        $validated = $request->validate([
+            'status' => 'required'
+        ]);
+        DB::beginTransaction();
+        try {
+            //get all routing slips for this transaction
+            $routings = RoutingSlip::where('transactionId', $transaction->id)->get();
+            //mark routingslips status to completed
+            $routings->each(function ($routing) use ($validated) {
+                $routing->status = $validated['status'];
+                $routing->save();
+            });
+            //update transaction completion
+            if ($validated['status'] == 'Completed') {
+                $transaction->completionDate = Carbon::now();
+                $transaction->completedById = Auth::user()->id;
+                $transaction->save();
+            }
+            //iterate routing ids to create routing logs
+            foreach ($routings as $routing) {
+                RoutingLog::create([
+                    'routingSlipId' => $routing->id,
+                    'status' => $validated['status']
+                ]);
+            }
+            DB::commit();
+        } catch (\Exception $e) {
+            DB::rollBack();
+            \Log::error($e, "Error updating transaction routing status");
+        }
+        return redirect()->route('transaction.show', ['transaction' => $transaction->id]);
     }
 }

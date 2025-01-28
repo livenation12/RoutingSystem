@@ -27,7 +27,7 @@ class StoreProposalRequest extends FormRequest
             'source' => ['required'],
             'sourceType' => ['required'],
             'attachments' => ['required', 'array'],  // Ensure it's an array of files
-            'attachments.*' => ['image', 'mimes:jpeg,png,jpg,gif,svg', 'max:10240'],  // Max file size = 10MB
+            'attachments.*' => ['max:2045'],  // Max file size = 2MB
         ];
     }
 }

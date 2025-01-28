@@ -9,9 +9,8 @@ use App\Models\Remarks;
 use App\Models\RoutingLog;
 use App\Models\RoutingSlip;
 use App\Models\Transaction;
-use App\Models\User;
 use DB;
-
+use Illuminate\Routing\Events\Routing;
 
 class ProcessRoutingSlip extends Controller
 {
@@ -56,6 +55,7 @@ class ProcessRoutingSlip extends Controller
                     'transactionId' => $routingSlip->transactionId,
                     'fromUserId' => $endorsedToHeadId,
                     'status' => 'Pending',
+
                 ]);
                 if ($endorsedRoutingSlip) {
                     $routingSlip->status = 'Endorsed';
@@ -68,6 +68,10 @@ class ProcessRoutingSlip extends Controller
                             'office' => $routingSlip->endorsedTo->officeName,
                         ]);
                     }
+                    RoutingLog::create([
+                        'routingSlipId' => $endorsedRoutingSlip->id,
+                        'status' => 'Endorsed',
+                    ]);
                     RoutingLog::create([
                         'routingSlipId' => $routingSlip->id,
                         'status' => 'Endorsed',

@@ -1,11 +1,12 @@
 <?php
 
 use App\Http\Controllers\ProfileController;
+use App\Http\Controllers\RedirectHandlerController;
 use App\Http\Controllers\RoutingController;
 use App\Http\Controllers\TransactionController;
 use Illuminate\Support\Facades\Route;
 
-Route::redirect('/', '/login');
+Route::get('/', RedirectHandlerController::class);
 
 // Protect all routes with 'auth' middleware for authentication
 Route::middleware(['auth'])->group(function () {

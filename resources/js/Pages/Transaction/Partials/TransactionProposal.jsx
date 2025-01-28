@@ -16,12 +16,15 @@ export default function TransactionProposal({ proposal }) {
                               </dl>
                               <div className="col-span-2">
                                         <p className="text-gray-400 text-sm mb-2">Attachments</p>
-                                        <div className="flex max-w-full overflow-auto">
+                                        <div className="flex max-w-full overflow-auto gap-1.5">
                                                   {proposal.attachments.length ? proposal.attachments.map((attachment, index) => (
                                                             <a
                                                                       href={attachment.url}
                                                                       target='_blank'
-                                                                      key={index}>
+                                                                      key={index}
+                                                                      className='underline text-blue-500'
+                                                                      >
+                                                                      
                                                                       <img
                                                                                 className='h-[250px] max-w-[300px] object-cover'
                                                                                 src={attachment.url}

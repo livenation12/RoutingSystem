@@ -34,7 +34,8 @@ class TransactionController extends Controller
             'proposal',
             'routingSlips.fromUser',
             'routingSlips.remarks',
-            'routingSlips.attachments'
+            'routingSlips.attachments',
+            'completedBy'
         ]);
         return inertia("Transaction/TransactionFullDetails", [
             'transaction' => new TransactionResource($transaction),

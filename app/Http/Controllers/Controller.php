@@ -26,7 +26,6 @@ abstract class Controller
                     ->orWhere('source', 'like', "%$search%");
             });
         }
-
         return $query;
     }
 }
