@@ -124,7 +124,7 @@ export default function RoutingsTable({ routings, search = '', sortColumn = '', 
                                                     <Ellipsis />
                                                 </SecondaryButton>
                                             </Link>
-                                            {
+                                            {/* {
                                                 roles.includes('receiver') &&
                                                     (routing.status !== 'Completed' && routing.status !== 'Incomplete') ? (
                                                     <Dropdown>
@@ -140,7 +140,7 @@ export default function RoutingsTable({ routings, search = '', sortColumn = '', 
                                                         </Dropdown.Content>
                                                     </Dropdown>
                                                 ) : null
-                                            }
+                                            } */}
                                         </div>
                                     </td>
                                 </tr>

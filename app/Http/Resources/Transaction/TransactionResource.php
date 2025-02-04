@@ -24,9 +24,9 @@ class TransactionResource extends JsonResource
         return [
             'id' => $this->id,
             'receivedBy' => new UserResource($this->receiver),
-            'accomplishmentDate' => !empty($this->accomplishmentDate)
+            'accomplishmentDate' => !empty($this->accomplishmentDate) 
                 ? Carbon::parse($this->accomplishmentDate)->format('M d y h:i A')
-                : 'Not yet accomplished',
+                : null,
             'status' => !empty($this->accomplishmentDate)
                 ? 'Completed'
                 : 'On going',
