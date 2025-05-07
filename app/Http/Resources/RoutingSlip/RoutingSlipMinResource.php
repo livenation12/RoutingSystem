@@ -32,7 +32,7 @@ class RoutingSlipMinResource extends JsonResource
             'subject' => $this->subject ?? '--',
             'toProcess' => Auth::user()->id === $this->fromUserId && !$this->endorsedToOfficeId && !$this->transaction->accomplishmentDate,
             'createdAt' => Carbon::parse($this->created_at)->diffForHumans(),
-            'createdDate' => $this->created_at?->format('m-d-y H:i A')
+            'createdDate' => $this->created_at?->format('m-d-y')
         ];
     }
 }

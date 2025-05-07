@@ -1,6 +1,7 @@
 import Dropdown from '@/Components/Dropdown';
 import Pagination from '@/Components/Pagination';
 import SecondaryButton from '@/Components/SecondaryButton';
+import StatusBadge from '@/Components/StatusBadge';
 import { useToast } from '@/Components/Toast';
 import { Link, router, usePage } from '@inertiajs/react';
 import { ArrowDownNarrowWide, ArrowUpNarrowWide, ChevronDown, Ellipsis } from 'lucide-react';
@@ -114,7 +115,7 @@ export default function RoutingsTable({ routings, search = '', sortColumn = '', 
                                     <td>{routing.fromUser.fullName}</td>
                                     <td>{routing.endorsedTo ? routing.endorsedTo.officeName : '--'}</td>
                                     <td className='text-xs text-gray-400 truncate max-w-[200px]'>{routing.subject}</td>
-                                    <td className='rounded text-xs'>{routing.status}</td>
+                                    <td className='text-xs text-center'><StatusBadge status={routing.status} /></td>
                                     <td className='text-xs text-gray-400'>{routing.createdDate}</td>
                                     <td>
                                         <div className='flex px-2 gap-1.5'>

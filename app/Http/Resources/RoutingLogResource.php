@@ -18,7 +18,7 @@ class RoutingLogResource extends JsonResource
             'id' => $this->id,
             'routingSlip' => $this->routingSlipId,
             'status' => $this->status,
-            'created_at' => $this->created_at?->format('m-d-y H:i A')
+            'created_at' => $this->created_at?->format('m-d-y')
         ];
     }
 }

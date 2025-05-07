@@ -43,7 +43,7 @@ class RoutingSlipResource extends JsonResource
             }),
             'routingLogs' => $this->whenLoaded('routingLogs') ?
                 RoutingLogResource::collection($this->routingLogs->sortByDesc('created_at')) : null,
-            'createdDate' => $this->created_at?->format('m-d-y H:i A')
+            'createdDate' => $this->created_at?->format('m-d-y')
         ];
     }
 }

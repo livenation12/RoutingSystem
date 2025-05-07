@@ -1,6 +1,8 @@
+import PrimaryButton from '@/Components/PrimaryButton'
 import SecondaryButton from '@/Components/SecondaryButton'
 import Layout from '@/Layouts/Layout'
 import { Head, Link } from '@inertiajs/react'
+import { Printer } from 'lucide-react'
 import React from 'react'
 
 export default function Show({ routingSlip }) {
@@ -23,7 +25,11 @@ export default function Show({ routingSlip }) {
             <div className='content-wrapper'>
                 <div className="section-wrapper">
                     <div>
-                        <h3 className='section-header'>Details</h3>
+                        <header className='flex justify-between'>
+                            <h3 className='section-header'>Details</h3>
+                            <PrimaryButton><Printer className='me-1' /> Print</PrimaryButton>
+                        </header>
+
                         <div className='grid lg:grid-cols-3'>
                             <div className='col-span-2 max-w-2xl lg:border-r p-3'>
                                 <dl>

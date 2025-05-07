@@ -32,11 +32,11 @@ export default function ViewTransaction() {
           : null
         }
       </div>
-      <div className='flex max-height-[300px] overflow-x-auto gap-1.5'>
+      <div className='flex max-h-[300px] space-x-1 overflow-auto'>
         {transaction.proposal.attachments.length > 0 ?
           transaction.proposal.attachments.map((attachment, index) => (
             <a href={attachment.url} className='underline text-blue-500' target='_blank' key={index}>
-              <img className='h-full max-w-[300px] object-cover' src={attachment.url} alt={`Attachment ${index +1}`} />
+              <img className='h-[300px] w-[300px] object-cover' src={attachment.url} alt={`Attachment ${index +1}`} />
             </a>
           )) :
           <p className='text-red-500'>All attachments are deleted, Please update this transaction</p>

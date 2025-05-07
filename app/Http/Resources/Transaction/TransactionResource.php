@@ -25,7 +25,7 @@ class TransactionResource extends JsonResource
             'id' => $this->id,
             'receivedBy' => new UserResource($this->receiver),
             'accomplishmentDate' => !empty($this->accomplishmentDate) 
-                ? Carbon::parse($this->accomplishmentDate)->format('M d y h:i A')
+                ? Carbon::parse($this->accomplishmentDate)->format('M d y')
                 : null,
             'status' => !empty($this->accomplishmentDate)
                 ? 'Completed'
@@ -35,7 +35,7 @@ class TransactionResource extends JsonResource
             'updated_at' => Carbon::parse($this->updated_at)->diffForHumans(),
             'routingSlips' => RoutingSlipResource::collection($this->whenLoaded('routingSlips')),
             'isInitialized' => $this->routingSlips && $this->routingSlips->isNotEmpty(),
-            'completionDate' => $this->completionDate ? Carbon::parse($this->completionDate)->format('M d y h:i A') : null,
+            'completionDate' => $this->completionDate ? Carbon::parse($this->completionDate)->format('M d y') : null,
             'completedBy' => new UserResource($this->whenLoaded('completedBy')),
         ];
     }

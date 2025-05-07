@@ -22,7 +22,7 @@ class TransactionMinResource extends JsonResource
             'id' => $this->id,
             'receivedBy' => new UserMinResource($this->receiver),
             'accomplishmentDate' => !empty($this->accomplishmentDate)
-                ? Carbon::parse($this->accomplishmentDate)->format('Y-m-d H:i:s')
+                ? Carbon::parse($this->accomplishmentDate)->format('Y-m-d')
                 : 'Not yet accomplished',
             'status' => !empty($this->accomplishmentDate)
                 ? 'Completed'
