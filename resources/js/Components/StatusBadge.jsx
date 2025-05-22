@@ -5,6 +5,8 @@ export default function StatusBadge({ status }) {
      switch (status) {
           case "Pending":
                return <span className='rounded-md font-semibold p-1.5 bg-yellow-600 text-xs'>{status}</span>
+          case "Reverted":
+               return <span className='rounded-md font-semibold p-1.5 bg-pink-600 text-xs'>{status}</span>
           case "Endorsed": 
                return <span className='rounded-md font-semibold p-1.5 bg-gray-600 text-xs'>{status}</span>
           case "Completed": 

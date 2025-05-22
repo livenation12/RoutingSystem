@@ -25,8 +25,8 @@ export default function TransactionFullDetails({ transaction }) {
             <div className="flex justify-between">
                 <h1 className="main-header">Transaction</h1>
                 <div className="flex gap-2">
-                    <Link onClick={() => window.history.back()}>
-                        <SecondaryButton>Back</SecondaryButton>
+                    <Link href={route('routing.index')}>
+                        <SecondaryButton>Go to list</SecondaryButton>
                     </Link>
                 </div>
             </div>

@@ -24,6 +24,10 @@ export default function ProposalCreate() {
                                 toast('Created', 'Proposal created successfully');
                                 dispatch({ type: 'UPDATE_TRANSACTION' });
                         },
+                        onError: (error) => {
+                                console.log(error);
+                        },
+
                 });
         };
 
