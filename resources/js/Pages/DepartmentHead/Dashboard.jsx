@@ -2,7 +2,7 @@ import DepartmentHeadLayout from '@/Layouts/DepartmentHeadLayout'
 import { Head } from '@inertiajs/react'
 import React from 'react'
 import TransactionsTable from '../Shared/Transactions/TransactionsTable';
-import ViewTransaction from '../Shared/Transactions/ViewTransaction';
+import ViewTransaction from './Partials/ViewTransaction';
 export default function Dashboard({ transactions }) {
     return (
         <DepartmentHeadLayout>

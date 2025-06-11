@@ -1,17 +1,16 @@
 import React from 'react'
-import useTransactions from './Hooks/useTransactions';
 import { Link, usePage } from '@inertiajs/react';
 import RoutingList from '@/Pages/Shared/RoutingSlip/Partials/RoutingList';
-import PrimaryButton from '@/Components/PrimaryButton';
 import SecondaryButton from '@/Components/SecondaryButton';
 import { PenBox } from 'lucide-react';
+import useTransactions from '@/Pages/Shared/Transactions/Hooks/useTransactions';
 
 //This component should be wrapped by TransactionProvider
 export default function ViewTransaction() {
   const [role] = usePage().props.auth.roles
   const [state] = useTransactions();
   const { transaction } = state;
-
+  
   if (!transaction) {
     return (
       <p className='text'>No transaction to view yet</p>
@@ -22,14 +21,6 @@ export default function ViewTransaction() {
     <div className='space-y-5'>
       <div className='flex justify-between'>
         <h3 className='section-header mb-1'>Proposal</h3>
-        {transaction.routingSlips.length === 0 && role === 'receiver' ?
-          <Link href={route('receiver.initial-routing.create', { transaction: transaction.id })}>
-            <PrimaryButton>
-              Initialize Routing
-            </PrimaryButton>
-          </Link>
-          : null
-        }
       </div>
       <div className='flex max-h-[300px] space-x-1 overflow-auto'>
         {transaction.proposal.attachments.length > 0 ?
@@ -42,14 +33,13 @@ export default function ViewTransaction() {
         }
       </div>
       <div className='space-y-2 relative grid md:grid-cols-2'>
-        {role === 'receiver' || role === 'admin' ?
+        
           <Link className='absolute right-0 top-0' href={route('receiver.transaction.edit', transaction.id)} title='Edit'>
             <SecondaryButton>
               <PenBox />
             </SecondaryButton>
           </Link>
-          : null
-        }
+  
         <dl>
           <dt>Traking ID</dt>
           <dd>{transaction?.proposal.trackingId}</dd>

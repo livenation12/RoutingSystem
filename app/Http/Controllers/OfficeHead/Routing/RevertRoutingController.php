@@ -9,6 +9,8 @@ use App\Models\Office;
 use App\Models\Remarks;
 use App\Models\RoutingLog;
 use App\Models\RoutingSlip;
+use App\Models\User;
+use App\Notifications\UserActionNotification;
 use DB;
 
 class RevertRoutingController extends Controller
@@ -77,6 +79,7 @@ class RevertRoutingController extends Controller
                 'routingSlipId' => $routingSlip->id,
                 'status' => 'Reverted',
             ]);
+            User::getDepartmentHead()->notify(new UserActionNotification("Routing Slip #{$routingSlip->docTin} has been reverted"));
             DB::commit();
             return to_route('office-head.dashboard', ['routingSlip' => $routingSlip]);
         } catch (\ErrorException $e) {

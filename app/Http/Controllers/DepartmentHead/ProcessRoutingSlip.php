@@ -9,6 +9,7 @@ use App\Models\Remarks;
 use App\Models\RoutingLog;
 use App\Models\RoutingSlip;
 use App\Models\Transaction;
+use App\Notifications\UserActionNotification;
 use DB;
 use Illuminate\Routing\Events\Routing;
 
@@ -49,13 +50,12 @@ class ProcessRoutingSlip extends Controller
                     'status' => 'Accomplished',
                 ]);
             } else {
-                $endorsedToHeadId = Office::find($validated['endorsedToOfficeId'])->officeHead->id;
+                $endorsedToHead = Office::find($validated['endorsedToOfficeId'])->officeHead;
                 $endorsedRoutingSlip = RoutingSlip::create([
                     'endorsedByOfficeId' => $routingSlip->fromUser->office->id,
                     'transactionId' => $routingSlip->transactionId,
-                    'fromUserId' => $endorsedToHeadId,
+                    'fromUserId' => $endorsedToHead->id,
                     'status' => 'Pending',
-
                 ]);
                 if ($endorsedRoutingSlip) {
                     $routingSlip->status = 'Endorsed';
@@ -76,6 +76,7 @@ class ProcessRoutingSlip extends Controller
                         'routingSlipId' => $routingSlip->id,
                         'status' => 'Endorsed',
                     ]);
+                    $endorsedToHead->notify(new UserActionNotification("Department Head: $endorsedToHead->name has endorsed a routing slip to your office with DocTin $endorsedRoutingSlip->docTin"));    
                 } else {
                     \Log::error('Error creating routing slip');
                 }

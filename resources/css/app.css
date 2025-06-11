@@ -76,3 +76,7 @@ dt {
 dd {
     @apply ml-2 mb-2
 }
+
+.hover {
+    @apply hover:bg-gray-200 dark:hover:bg-gray-700
+}

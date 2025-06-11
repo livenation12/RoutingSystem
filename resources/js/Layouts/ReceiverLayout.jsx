@@ -2,15 +2,25 @@ import ApplicationLogo from '@/Components/ApplicationLogo';
 import Dropdown from '@/Components/Dropdown';
 import NavLink from '@/Components/NavLink';
 import ResponsiveNavLink from '@/Components/ResponsiveNavLink';
-import { Link, usePage } from '@inertiajs/react';
+import useTransactions from '@/Pages/Shared/Transactions/Hooks/useTransactions';
+import { Link, router, usePage } from '@inertiajs/react';
 import { useState } from 'react';
+import UnreadNotif from './components/UnreadNotif';
+import { Button } from '@headlessui/react';
 
 export default function ReceiverLayout({ header, children }) {
      const user = usePage().props.auth.user;
-
+     const [state, dispatch] = useTransactions();
+     const unreadNotifs = usePage().props.unreadNotifs;
+     const [isUnreadNotifsOpen, setIsUnreadNotifsOpen] = useState(false);
      const [showingNavigationDropdown, setShowingNavigationDropdown] =
           useState(false);
-
+    const handleNotifClose = () => {
+        if (unreadNotifs.length > 0) {
+            router.patch(route('notif.read'));
+        }
+        setIsUnreadNotifsOpen(false);
+    }
      return (
           <div className="min-h-screen bg-gray-100 dark:bg-gray-900">
                <nav className="border-b border-gray-100 bg-white dark:border-gray-700 dark:bg-gray-800">
@@ -43,6 +53,7 @@ export default function ReceiverLayout({ header, children }) {
                                         >
                                              Routings
                                         </NavLink>
+                                        <Button onClick={() => setIsUnreadNotifsOpen(true)} className="text-sm text-gray-400 relative">{unreadNotifs.length > 0 && <span className='bg-red-500 text-xs text-white -right-4 top-4  absolute z-10 border rounded-full px-2'>{unreadNotifs.length}</span>}Unread Notifications</Button>
                                    </div>
                               </div>
 
@@ -83,6 +94,7 @@ export default function ReceiverLayout({ header, children }) {
                                                   <Dropdown.Link
                                                        href={route('logout')}
                                                        method="post"
+                                                       onClick={() => dispatch({ type: 'RESET_TRANSACTION' })}
                                                        as="button"
                                                   >
                                                        Log Out
@@ -159,6 +171,7 @@ export default function ReceiverLayout({ header, children }) {
                                    </ResponsiveNavLink>
                                    <ResponsiveNavLink
                                         method="post"
+                                        onClick={() => dispatch({ type: 'RESET_TRANSACTION' })}
                                         href={route('logout')}
                                         as="button"
                                    >
@@ -178,6 +191,11 @@ export default function ReceiverLayout({ header, children }) {
                )}
 
                <main>{children}</main>
+               <UnreadNotif
+                    unreadNotifs={unreadNotifs}
+                    isUnreadNotifsOpen={isUnreadNotifsOpen}
+                    handleNotifClose={handleNotifClose}
+               />
           </div>
      );
 }

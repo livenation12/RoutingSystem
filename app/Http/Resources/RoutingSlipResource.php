@@ -38,7 +38,8 @@ class RoutingSlipResource extends JsonResource
             'attachments' => $this->attachments->map(function ($attachment) {
                 return [
                     'url' => Storage::url($attachment->filePath),
-                    'id' => $attachment->id
+                    'id' => $attachment->id,
+                    'fileName' => $attachment->fileName,
                 ]; // Assuming `file` is the column storing the file path
             }),
             'routingLogs' => $this->whenLoaded('routingLogs') ?

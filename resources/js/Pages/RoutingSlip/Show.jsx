@@ -5,7 +5,7 @@ import { Head, Link } from '@inertiajs/react'
 import { Printer } from 'lucide-react'
 import React from 'react'
 
-export default function Show({ routingSlip }) {
+export default function Show({ routingSlip }) {    
     return (
         <Layout
             header={
@@ -115,7 +115,7 @@ export default function Show({ routingSlip }) {
                                         {routingSlip.attachments.length > 0 ?
                                             routingSlip.attachments.map((attachment, index) => (
                                                 <a href={attachment.url} target='_blank' key={index}>
-                                                    <img className='object-cover' src={attachment.url} alt={`attachment[${index}]`} />
+                                                    <img className='object-cover' src={attachment.url} alt={attachment.fileName} />
                                                 </a>
                                             ))
                                             :

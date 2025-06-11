@@ -15,12 +15,12 @@ export default function TransactionsTable({ transactions, search = '' }) {
     const handleSelectedTransaction = (transaction) => {
         dispatch({ type: 'SET_TRANSACTION', payload: transaction });
     };
-
+    
     useEffect(() => {
         if (transactions.data.length > 0) {
             dispatch({ type: 'SET_TRANSACTION', payload: transactions.data[0] })
         }
-    }, [state.isUpdated])
+    }, [state.isUpdated, role])
 
     const handleSearchSubmit = (e) => {
         e.preventDefault(); // Prevent default form submission

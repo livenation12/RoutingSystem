@@ -1,14 +1,24 @@
 import ApplicationLogo from '@/Components/ApplicationLogo';
 import Dropdown from '@/Components/Dropdown';
 import ResponsiveNavLink from '@/Components/ResponsiveNavLink';
-import { Link, usePage } from '@inertiajs/react';
+import { Button } from '@headlessui/react';
+import { Link, router, usePage } from '@inertiajs/react';
 import { useState } from 'react';
+import UnreadNotif from './components/UnreadNotif';
+import useTransactions from '@/Pages/Shared/Transactions/Hooks/useTransactions';
 
 export default function OfficeHeadLayout({ header, children }) {
      const { user } = usePage().props.auth;
-
-     const [showingNavigationDropdown, setShowingNavigationDropdown] =
-          useState(false);
+     const unreadNotifs = usePage().props.unreadNotifs;
+     const [isUnreadNotifsOpen, setIsUnreadNotifsOpen] = useState(false);
+     const [showingNavigationDropdown, setShowingNavigationDropdown] = useState(false);
+     const [state, dispatch] = useTransactions();
+     const handleNotifClose = () => {
+          if (unreadNotifs.length > 0) {
+               router.patch(route('notif.read'));
+          }
+          setIsUnreadNotifsOpen(false);
+     }
 
      return (
           <div className="min-h-screen bg-gray-100 dark:bg-gray-900">
@@ -28,6 +38,9 @@ export default function OfficeHeadLayout({ header, children }) {
 
                                              </Link>
                                         </div>
+                                   </div>
+                                   <div className="hidden space-x-8 sm:-my-px sm:ms-10 sm:flex">
+                                        <Button onClick={() => setIsUnreadNotifsOpen(true)} className="text-sm text-gray-400 relative">{unreadNotifs.length > 0 && <span className='bg-red-500 text-xs text-white -right-4 top-4  absolute z-10 border rounded-full px-2'>{unreadNotifs.length}</span>}Unread Notifications</Button>
                                    </div>
                               </div>
                               <div className="hidden sm:ms-6 sm:flex sm:items-center">
@@ -68,6 +81,8 @@ export default function OfficeHeadLayout({ header, children }) {
                                                        href={route('logout')}
                                                        method="post"
                                                        as="button"
+                                                       onClick={() => dispatch({type: 'RESET_TRANSACTION'})}
+
                                                   >
                                                        Log Out
                                                   </Dropdown.Link>
@@ -145,6 +160,7 @@ export default function OfficeHeadLayout({ header, children }) {
                                         method="post"
                                         href={route('logout')}
                                         as="button"
+                                        onClick={() => dispatch({type: 'RESET_TRANSACTION'})}
                                    >
                                         Log Out
                                    </ResponsiveNavLink>
@@ -162,6 +178,11 @@ export default function OfficeHeadLayout({ header, children }) {
                )}
 
                <main>{children}</main>
+               <UnreadNotif
+                    unreadNotifs={unreadNotifs}
+                    isUnreadNotifsOpen={isUnreadNotifsOpen}
+                    handleNotifClose={handleNotifClose}
+               />
           </div>
      );
 }

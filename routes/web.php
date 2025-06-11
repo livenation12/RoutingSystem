@@ -4,6 +4,7 @@ use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\RedirectHandlerController;
 use App\Http\Controllers\RoutingController;
 use App\Http\Controllers\TransactionController;
+use App\Http\Controllers\UserActionController;
 use Illuminate\Support\Facades\Route;
 
 Route::get('/', RedirectHandlerController::class);
@@ -26,6 +27,9 @@ Route::middleware(['auth'])->group(function () {
     Route::get('/routing/{routingSlip}/show', [RoutingController::class, 'show'])->name('routing.show');
     Route::post('/routing', [RoutingController::class, 'store'])->name('routing.store');
     Route::get('/routing/{transaction}/create', [RoutingController::class, 'create'])->name('routing.create');
+
+    //Notif routes
+    Route::patch('/notif/read', [UserActionController::class, 'read'])->name('notif.read');
 });
 
 require __DIR__ . '/receiver.php';

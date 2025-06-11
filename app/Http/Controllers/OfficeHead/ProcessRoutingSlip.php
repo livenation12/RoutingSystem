@@ -8,6 +8,7 @@ use App\Models\Office;
 use App\Models\Remarks;
 use App\Models\RoutingSlip;
 use App\Models\Transaction;
+use App\Notifications\UserActionNotification;
 use Auth;
 
 class ProcessRoutingSlip extends Controller
@@ -34,10 +35,13 @@ class ProcessRoutingSlip extends Controller
             $transaction = Transaction::findOrFail($routingSlip->transactionId);
             // Check if transaction exists before accessing its properties
             if ($transaction) {
+                //if not endorsed to any office, set the accomplishment date
+                $receiver =  Auth::user();
                 $transaction->accomplishmentDate = now();
                 $transaction->save();
+                $receiver->notify(new UserActionNotification("Office Head has accomplished the transaction with DocTin{$transaction->routingSlip->docTin}"));
             } else {
-                // Handle the case where the transaction is not found (optional)
+                // Handle the case where the transaction is not found
                 return to_route(
                     'office-head.routing-slip.form',
                     ['routingSlip' => $routingSlip]
@@ -54,6 +58,7 @@ class ProcessRoutingSlip extends Controller
             'message' => $validated['remarks'],
             'office' => Auth::user()->office->officeName,
         ]);
+
         //initialize routing slip for the next routing
         RoutingSlip::create([
             'transactionId' => $routingSlip->transactionId,

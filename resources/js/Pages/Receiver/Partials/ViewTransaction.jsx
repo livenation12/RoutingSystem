@@ -1,10 +1,10 @@
 import React from 'react'
-import useTransactions from './Hooks/useTransactions';
 import { Link, usePage } from '@inertiajs/react';
 import RoutingList from '@/Pages/Shared/RoutingSlip/Partials/RoutingList';
 import PrimaryButton from '@/Components/PrimaryButton';
 import SecondaryButton from '@/Components/SecondaryButton';
 import { PenBox } from 'lucide-react';
+import useTransactions from '@/Pages/Shared/Transactions/Hooks/useTransactions';
 
 //This component should be wrapped by TransactionProvider
 export default function ViewTransaction() {

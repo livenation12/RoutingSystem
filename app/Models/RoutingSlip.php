@@ -6,7 +6,7 @@ use Carbon\Carbon;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Database\Eloquent\Model;
 
-class   RoutingSlip extends Model
+class RoutingSlip extends Model
 {
     private static $fileDirectory = 'uploads/routings';
     protected $table = 'routing_slips';

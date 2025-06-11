@@ -2,7 +2,7 @@ import ReceiverLayout from '@/Layouts/ReceiverLayout'
 import { Head, Link } from '@inertiajs/react'
 import TransactionsTable from '../Shared/Transactions/TransactionsTable'
 import PrimaryButton from '@/Components/PrimaryButton'
-import ViewTransaction from '../Shared/Transactions/ViewTransaction'
+import ViewTransaction from './Partials/ViewTransaction'
 
 export default function Dashboard({ transactions }) {
     return (

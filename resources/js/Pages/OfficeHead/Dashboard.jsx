@@ -3,10 +3,11 @@ import { Head, usePage } from '@inertiajs/react'
 
 import ViewTransaction from '../Shared/Transactions/ViewTransaction'
 import TransactionsTable from '../Shared/Transactions/TransactionsTable'
+import Layout from '@/Layouts/Layout'
 export default function Dashboard({ transactions }) {
 
     return (
-        <OfficeHeadLayout>
+        <Layout>
             <Head title='Office Head' />
             <div className='content-wrapper'>
                 <div className='grid md:grid-cols-5 gap-2'>
@@ -18,7 +19,7 @@ export default function Dashboard({ transactions }) {
                     </section>
                 </div>
             </div>
-        </OfficeHeadLayout >
+        </Layout >
 
     )
 }

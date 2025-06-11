@@ -20,6 +20,11 @@ const transactionReducer = (state, action) => {
                                         ...state,
                                         isUpdated: !state.isUpdated
                               }
+                    case 'RESET_TRANSACTION':
+                         return {
+                                   ...state,
+                                   transaction: null
+                         }
                     default:
                               return state;
           }
@@ -31,8 +36,6 @@ export const TransactionsContext = createContext();
 // Provider component
 export const TransactionProvider = ({ children }) => {
           const [state, dispatch] = useReducer(transactionReducer, initialState);
-
-
           return (
                     <TransactionsContext.Provider value={[state, dispatch]}>
                               {children}

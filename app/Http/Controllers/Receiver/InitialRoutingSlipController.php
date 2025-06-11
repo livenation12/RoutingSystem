@@ -9,6 +9,9 @@ use App\Models\RoutingLog;
 use App\Models\RoutingSlip;
 use App\Models\Transaction;
 use App\Models\User;
+use App\Notifications\UserActionNotification;
+use Auth;
+use Notification;
 
 class InitialRoutingSlipController extends Controller
 {
@@ -27,6 +30,11 @@ class InitialRoutingSlipController extends Controller
                 'routingSlipId' => $routing->id,
                 'status' => 'Created',
             ]);
+            $deptHead = User::getDepartmentHead();
+            $receiver = Auth::user();
+            $deptHead->notify(new UserActionNotification(
+                "Receiver: $receiver->firstName $receiver->lastName has initialized a new routing slip with DocTin: $routing->docTin",
+            ));
         }
         return to_route('receiver.dashboard');
     }
